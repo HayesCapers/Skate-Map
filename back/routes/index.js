@@ -21,6 +21,7 @@ router.post('/login',(req,res)=>{
 	dB(query.userCheck,[userName]).then((results) => {
 		if(results.length > 0){
 			var checkHash = bcrypt.compareSync(password,results[0].password);
+			var token = randToken.uid(40);
 			if(checkHash){
 				dB(query.login,[token,userName]).then((logRes)=>{
 					res.json({
