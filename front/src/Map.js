@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { View, StyleSheet } from 'react-native';
 import MapView from 'react-native-maps';
+var mods = require('../my_mods');
+
 
 class Map extends Component {
 	constructor(props) {
@@ -19,32 +21,55 @@ class Map extends Component {
 	}
 
 	componentDidMount() {
-		navigator.geolocation.getCurrentPosition((position) => {
-			var initPosit = JSON.stringify(position);
-			var newLocation = {
-				latitude: position.coords.latitude,
-				longitude: position.coords.longitude,
-				latitudeDelta: 0.1,
-				longitudeDelta: 0.1
-			}
-			this.setState({
-				initLocation: newLocation
-			})
-		})
+		// navigator.geolocation.getCurrentPosition((position) => {
+		// 	console.log(position)
+		// 	var newLocation = {
+		// 		latitude: position.coords.latitude,
+		// 		longitude: position.coords.longitude,
+		// 		latitudeDelta: 0.1,
+		// 		longitudeDelta: 0.1
+		// 	}
+		// 	this.setState({
+		// 		initLocation: newLocation
+		// 	})
+		// })
+	}
+
+	getSpots() {
+		const url = 'http://localhost:3000/login';
+		const data = {
+			lat: this.state.initLocation.latitude,
+			lon: this.state.initLocation.longitude
+		}
+		var spotArr = [];
+
+		mods.axiosReq('get',url,data)
+			.then(data => {
+				data.spots.map(spot => {
+					spotArr.push(spot)
+				})
+			}).catch()
 	}
 
 	render() {
 		return(
 			<View style={styles.container}>
 				<MapView 
-					initialRegion={{				
-						latitude: 33.8499041,
-						longitude: -84.3730464,
-						latitudeDelta: 0.05,
-						longitudeDelta: 0.05
-					}}
+					showsUserLocation={true}
+					initialRegion={this.state.initLocation}
+					region={this.state.initLocation}
 					style={styles.map}
-				/>
+					rotateEnabled={false}
+				>
+					<MapView.Marker
+	                    coordinate={{
+	                        latitude: 33.8499041,
+	                        longitude: -84.3730464,
+	                    }} 
+	                    title={'Subway'}
+                    	description={'$5.70'}
+                    />
+				</MapView>
 			</View>
 		)
 	}
