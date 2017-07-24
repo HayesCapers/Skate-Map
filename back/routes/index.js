@@ -157,11 +157,23 @@ router.post('/updateAccount', (req,res)=>{
 });
 
 router.post('/initMarkers',(req,res)=>{
-	var info = req.body;
-	var check = distanceCheck([info.lat,info.lon]);
-	res.json({
-		spots: check
+	// console.log(req)
+	var info = [req.body.lat, req.body.lon]
+	var check = new Promise((resolve,reject)=>{
+		resolve(distanceCheck(info))
 	})
+
+	check.then((results)=>{
+		console.log(results)
+		res.json({
+			spots: results
+		})
+	})
+	// var check = distanceCheck(info);
+	// console.log(distanceCheck(info))
+	// res.json({
+	// 	spots: check
+	// })
 })
 
 

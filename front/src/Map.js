@@ -17,7 +17,8 @@ class Map extends Component {
 			},
 			spots: []
 		}
-		
+
+		this.getSpots = this.getSpots.bind(this)		
 	}
 
 	componentDidMount() {
@@ -33,25 +34,55 @@ class Map extends Component {
 		// 		initLocation: newLocation
 		// 	})
 		// })
+
+		this.getSpots()
 	}
 
 	getSpots() {
-		const url = 'http://localhost:3000/login';
+		const url = 'http://localhost:3000/initMarkers';
 		const data = {
 			lat: this.state.initLocation.latitude,
 			lon: this.state.initLocation.longitude
 		}
 		var spotArr = [];
 
-		mods.axiosReq('get',url,data)
+		mods.axiosReq('post',url,data)
 			.then(data => {
-				data.spots.map(spot => {
+				console.log(data)
+				data.data.spots.map(spot => {
 					spotArr.push(spot)
 				})
-			}).catch()
+				console.log(spotArr)
+				this.setState({
+					spots: spotArr
+				})
+			})
+	}
+
+	showDetails(e) {
+		console.log(e.nativeEvent.id)
 	}
 
 	render() {
+		var spotBox = [];
+		this.state.spots.map((spot,index)=>{
+			var id = spot.locationID.toString()
+			spotBox.push(
+				<MapView.Marker
+					coordinate={{
+						latitude: spot.latitude,
+						longitude: spot.longitude
+					}}
+					title={spot.locationName}
+					description={
+						`rating: ${spot.rating} security level: ${spot.securityLevel}`
+					}
+					identifier={id}
+					key={index}
+					onPress={this.showDetails.bind(this)}
+					/>
+			)
+		})
 		return(
 			<View style={styles.container}>
 				<MapView 
@@ -69,6 +100,7 @@ class Map extends Component {
 	                    title={'Subway'}
                     	description={'$5.70'}
                     />
+                    {spotBox}
 				</MapView>
 			</View>
 		)
