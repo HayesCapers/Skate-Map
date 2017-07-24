@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, StyleSheet } from 'react-native';
 import MapView from 'react-native-maps';
-var mods = require('../my_mods');
+const { axiosReq } = require('../my_mods');
 
 
 class Map extends Component {
@@ -46,13 +46,11 @@ class Map extends Component {
 		}
 		var spotArr = [];
 
-		mods.axiosReq('post',url,data)
-			.then(data => {
-				console.log(data)
-				data.data.spots.map(spot => {
+		axiosReq('post',url,data)
+			.then(res => {
+				res.data.spots.map(spot => {
 					spotArr.push(spot)
 				})
-				console.log(spotArr)
 				this.setState({
 					spots: spotArr
 				})
@@ -92,14 +90,6 @@ class Map extends Component {
 					style={styles.map}
 					rotateEnabled={false}
 				>
-					<MapView.Marker
-	                    coordinate={{
-	                        latitude: 33.8499041,
-	                        longitude: -84.3730464,
-	                    }} 
-	                    title={'Subway'}
-                    	description={'$5.70'}
-                    />
                     {spotBox}
 				</MapView>
 			</View>

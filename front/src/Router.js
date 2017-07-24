@@ -10,13 +10,13 @@ class AppRouter extends Component {
 		return(
 			<Router sceneStyle={{ paddingTop: 65 }}>
 
-				<Scene key='main'>
-					<Scene key='map' component={Map} title='Map' />
-				</Scene>
-
 				<Scene key='auth'>
 					<Scene key='login' component={LoginForm} title='Login' />
 					<Scene key='register' component={RegisterForm} title='Register' />
+				</Scene>
+
+				<Scene key='main'>
+					<Scene key='map' component={Map} title='Map' />
 				</Scene>
 
 			</Router>

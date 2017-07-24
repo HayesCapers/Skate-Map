@@ -1,11 +1,5 @@
 // import all the things
-var back = require('../modules');
-var router = back.router;
-var query = back.query;
-var dB = back.dB;
-var randToken = back.randToken;
-var bcrypt = back.bcrypt;
-var distanceCheck = back.distanceCheck;
+const { router, query, dB, randToken, bcrypt, distanceCheck } = require('../modules');
 
 
 // useless but i'll keep it anyway.
