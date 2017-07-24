@@ -6,5 +6,7 @@ module.exports = {
 	randToken: require('rand-token'),
 	dB: require('./dB'),
 	router: require('./router'),
-	query: require('./query')
+	query: require('./query'),
+	haversineForm: require('./haversine'),
+	distanceCheck: require('./distanceCheck')
 };
