@@ -1,11 +1,5 @@
 // import all the things
-var back = require('../modules');
-var router = back.router;
-var query = back.query;
-var dB = back.dB;
-var randToken = back.randToken;
-var bcrypt = back.bcrypt;
-var distanceCheck = back.distanceCheck;
+const { router, query, dB, randToken, bcrypt, distanceCheck } = require('../modules');
 
 
 // useless but i'll keep it anyway.
@@ -156,24 +150,18 @@ router.post('/updateAccount', (req,res)=>{
 	})
 });
 
+// populate markers in an area of 15 from current location
 router.post('/initMarkers',(req,res)=>{
-	// console.log(req)
 	var info = [req.body.lat, req.body.lon]
+	// promises. so many promises
 	var check = new Promise((resolve,reject)=>{
 		resolve(distanceCheck(info))
 	})
-
 	check.then((results)=>{
-		console.log(results)
 		res.json({
 			spots: results
 		})
 	})
-	// var check = distanceCheck(info);
-	// console.log(distanceCheck(info))
-	// res.json({
-	// 	spots: check
-	// })
 })
 
 

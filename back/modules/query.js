@@ -11,7 +11,8 @@ var query = {
 	addFave: '',
 	addSpotReview: '',
 	addSecReview: '',
-	locations: 'SELECT locationID,locationName,rating,securityLevel,latitude,longitude FROM __spots'
+	locations: 'SELECT locationID,locationName,rating,securityLevel,latitude,longitude FROM __spots',
+	detailed: ''
 }
 
 module.exports = query;

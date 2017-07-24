@@ -1,3 +1,4 @@
+// godsend formula for finding distance in km between an array of two LonLat sets
 function haversineForm(x, y){
 	// haversine :: (Num, Num) -> (Num, Num) -> Num
 	let haversine = ([lat1, lon1], [lat2, lon2]) => {
