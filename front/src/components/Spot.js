@@ -4,8 +4,10 @@ import { connect } from 'react-redux';
 import { Button, Card, CardSection } from './common';
 
 class Spot extends Component {
+
 	render() {
-		console.log(this.props.spot.img)
+		const { averageRating, totalRatings, city, state, description } = this.props.spot
+
 		return(
 			<Card>
 
@@ -14,10 +16,11 @@ class Spot extends Component {
 				</CardSection>
 
 				<CardSection>
-
+					<Text>Location: {city}, {state}{"\n"}rating: {averageRating} ({totalRatings})</Text>
 				</CardSection>
 
 				<CardSection>
+					<Text> {description} </Text>
 				</CardSection>
 
 			</Card>

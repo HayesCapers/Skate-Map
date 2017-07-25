@@ -187,6 +187,16 @@ router.post('/deets',(req,res)=>{
 	});
 });
 
+router.get('/img/:id',(req,res)=>{
+   	var id = req.params.id;
+	dB(query.img,[id]).then((deets)=>{
+	   	res.end(deets[0].img, 'binary')
+	})	
+   
+})
+
+
+
 //review page
 router.post('/reviews', (req,res)=>{
 	var info = req.body.locationID;
