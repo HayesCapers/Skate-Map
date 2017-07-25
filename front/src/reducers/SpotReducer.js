@@ -1,12 +1,25 @@
-
+import {
+	GET_SPOT,
+	GET_SPOT_SUCCESS,
+	GET_SPOT_FAIL
+} from '../actions/types';
 
 const INITIAL_STATE = {
 	id: '',
-	spot: null
+	spotDetails: {
+		locationName: ''
+	},
+	loading: false
 }
 
 export default (state = INITIAL_STATE, action) => {
 	switch (action.type) {
+		case GET_SPOT:
+			return { ...state, loading: true, id: action.payload }
+		case GET_SPOT_SUCCESS:
+			return { ...state, loading: false, spotDetails: action.payload }
+		case GET_SPOT_FAIL:
+			return { ...state, ...INITIAL_STATE }		
 		default:
 			return state
 	}

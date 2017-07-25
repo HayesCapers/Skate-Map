@@ -62,7 +62,7 @@ class Map extends Component {
 	showDetails(e) {
 		const spotID = e.nativeEvent.id
 
-		getSpotDetails(spotID)
+		this.props.getSpotDetails(spotID)
 	}
 
 	render() {
