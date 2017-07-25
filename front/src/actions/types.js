@@ -7,4 +7,7 @@ export const REGISTER_UPDATE = 'register_update';
 export const REGISTER_USER = 'register_user';
 export const REGISTER_USER_FAIL = 'register_user_fail';
 export const REGISTER_USER_SUCCESS = 'register_user_success';
+export const GET_SPOT = 'get_spot'
+export const GET_SPOT_SUCCESS = 'get_spot_success'
+export const GET_SPOT_FAIL = 'get_spot_fail'
 
