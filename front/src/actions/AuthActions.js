@@ -1,4 +1,4 @@
-var axios = require('axios');
+
 import { Actions } from 'react-native-router-flux'
 import { 
 	USERNAME_CHANGED,
@@ -7,6 +7,8 @@ import {
 	LOGIN_USER,
 	LOGIN_USER_FAIL
  } from './types';
+ import { loginUserFail, loginUserSuccess } from './common';
+ const { axiosReq } = require('../../my_mods');
 
 export const emailChanged = (text) => {
 	return {
@@ -27,41 +29,20 @@ export const loginUser = (userName, password) => {
 		dispatch({ type: LOGIN_USER })
 
 		const url = 'http://localhost:3000/login'
-
-			axios({
-				method: 'post',
-				url: url,
-				data: {
+		const data = {
 					userName: userName,
 					password: password
 				}
-			}).then(user => {
+
+		axiosReq('post',url,data)
+			.then(user => {
 				if (user.status === 200) {
 					loginUserSuccess(dispatch,user)
 				} else {
 					loginUserFail(dispatch)
-			}
-		}).catch(() => loginUserFail(dispatch))
-	}
-	return {
-		type: LOGIN_USER_SUCCESS,
-		payload: thePromise
+				}
+			}).catch(() => loginUserFail(dispatch))
 	}
 }
 
-
-const loginUserFail = (dispatch) => {
-	dispatch({
-		type: LOGIN_USER_FAIL
-	})
-}
-
-const loginUserSuccess = (dispatch, user) => {
-	dispatch({
-		type: LOGIN_USER_SUCCESS,
-		payload: user.data
-	});
-
-	Actions.main()
-}
 
