@@ -24,21 +24,21 @@ router.post('/login',(req,res)=>{
 						msg: 'Success',
 						userName: userName,
 						token: token
-					})
-				})
+					});
+				});
 			}else{
 				//well, you tried remembering your password. Not well enough.
 				res.json({
 					msg: 'invalidPass'
-				})
+				});
 			}
 		}else{
 			// do you even spell, bruh?
 			res.json({
 				msg: 'invalidUserName'
-			})
+			});
 		}
-	})
+	});
 
 });
 
@@ -52,11 +52,11 @@ router.post('/register', (req,res)=>{
 			if(deets[0].email === reg.email){
 				res.json({
 					msg: 'emailTaken'
-				})
+				});
 			}else if(deets[0].userName === reg.userName){
 				res.json({
 					msg: 'nameTaken'
-				})
+				});
 			}
 		}else{
 			dB(query.register,[reg.userName,reg.email,hash,reg.phone,token]).then((regDeets)=>{
@@ -64,10 +64,10 @@ router.post('/register', (req,res)=>{
 					msg: 'Success',
 					userName: reg.userName,
 					token: token
-				})
-			})
+				});
+			});
 		}
-	})
+	});
 });
 
 
@@ -83,7 +83,7 @@ router.post('/account', (req,res)=>{
 				// it has
 				res.json({
 					msg: 'loginAgain'
-				})
+				});
 			}else{
 				// you're in luck. no need to re-login.
 				res.json({
@@ -92,13 +92,13 @@ router.post('/account', (req,res)=>{
 					email: deets[0].email,
 					phone: deets[0].phoneNumber,
 					token: token
-				})
+				});
 			}
 		}else{
 			// apparently you don't know your account? idk. just in case scenario.
 			res.json({
 				msg: 'register'
-			})
+			});
 		}
 	});
 });
@@ -114,7 +114,7 @@ router.post('/updateAccount', (req,res)=>{
 			if((deets[0].tokenEXP * 1000) <= date){
 				res.json({
 					msg: 'loginAgain'
-				})
+				});
 			}else{
 				// update account with new password
 				var checkHash = bcrypt.compareSync(acct.currPass,deets[0].password);				
@@ -127,8 +127,8 @@ router.post('/updateAccount', (req,res)=>{
 							email: acct.email,
 							phone: acct.phone,
 							token: token
-						})
-					})
+						});
+					});
 				}else if((checkHash === true) && (acct.newPass === '')){
 					//update account without changing passwords
 					dB(query.updateNoPass,[acct.userName,acct.email,acct.phone,token]).then((upAcRes)=>{
@@ -138,22 +138,22 @@ router.post('/updateAccount', (req,res)=>{
 							email: acct.email,
 							phone: acct.phone,
 							token: token
-						})
-					})
+						});
+					});
 				}else if(checkHash === false){
 					//you dun messed up your password
 					res.json({
 						msg: 'invalidPass'
-					})
+					});
 				}
 			}
 		}else{
 			//your ass needs to register
 			res.json({
 				msg: 'register'
-			})
+			});
 		}
-	})
+	});
 });
 
 // populate markers in an area of 15 from current location
@@ -162,13 +162,13 @@ router.post('/initMarkers',(req,res)=>{
 	// promises. so many promises
 	var check = new Promise((resolve,reject)=>{
 		resolve(distanceCheck(info))
-	})
+	});
 	check.then((deets)=>{
 		res.json({
 			spots: deets
-		})
-	})
-})
+		});
+	});
+});
 
 //gotta get the deets bruh
 router.post('/deets',(req,res)=>{
@@ -178,14 +178,14 @@ router.post('/deets',(req,res)=>{
 			//givin ya the deets bruh
 			res.json({
 				deets: deets
-			})
+			});
 		}else{
 			res.json({
 				msg: 'shitBroke'
-			})
+			});
 		}
-	})
-})
+	});
+});
 
 //review page
 router.post('/reviews', (req,res)=>{
@@ -195,15 +195,15 @@ router.post('/reviews', (req,res)=>{
 			//for deets if they exist
 			res.json({
 				reviews: deets
-			})
+			});
 		}else{
 			//because some might not have any
 			res.json({
 				reviews: []
-			})
+			});
 		}
-	})
-})
+	});
+});
 
 router.post('/addReview', (req,res)=>{
 	var info = req.body;
@@ -216,7 +216,7 @@ router.post('/addReview', (req,res)=>{
 				//expired. login, yo.
 				res.json({
 					msg: 'loginAgain'
-				})
+				});
 			}else{
 				//not expired, yay.
 				dB(query.userCheck,[info.userName]).then((user)=>{
@@ -224,7 +224,7 @@ router.post('/addReview', (req,res)=>{
 						//just in case... i guess?
 						res.json({
 							msg: 'shitBroke'
-						})
+						});
 					}else{
 						//lets add that review. 
 						//gotta get everything in order first.
@@ -240,19 +240,19 @@ router.post('/addReview', (req,res)=>{
 						dB(query.addSpotReview,spotArr).then(()=>{
 							res.json({
 								msg: 'reviewAdded'
-							})
-						})
+							});
+						});
 					}
-				})
+				});
 			}
 		}else{
 			//srsly. register.
 			res.json({
 				msg: 'register'
-			})
+			});
 		}
-	})
-})
+	});
+});
 
 //basic security levels page.
 router.post('/security', (req,res)=>{
@@ -262,14 +262,14 @@ router.post('/security', (req,res)=>{
 		if(deets.length > 0){
 			res.json({
 				secReviews: deets
-			})
+			});
 		}else{
 			res.json({
 				secReviews: []
-			})
+			});
 		}
-	})
-})
+	});
+});
 
 //add security info for spots
 router.post('/addSecReview', (req,res)=>{
@@ -282,14 +282,14 @@ router.post('/addSecReview', (req,res)=>{
 			if((deets[0].tokenEXP * 1000) <= date){
 				res.json({
 					msg: 'loginAgain'
-				})
+				});
 			}else{	
 				dB(query.userCheck,[info.userName]).then((user)=>{
 					//hope this never gets seen.
 					if(user.length === 0){
 						res.json({
 							msg: 'shitBroke'
-						})
+						});
 					}else{
 						var userID = user[0].userID;
 						var spotArr = [
@@ -297,25 +297,24 @@ router.post('/addSecReview', (req,res)=>{
 							userID,
 							info.rating,
 							info.review,
-							info.isFav
 						]
 						dB(query.addSecReview,spotArr).then(()=>{
 							// boom. added.
 							res.json({
 								msg: 'secReviewAdded'
-							})
-						})
+							});
+						});
 					}
-				})
+				});
 			}
 		}else{
 			//oh come on.
 			res.json({
 				msg: 'register'
-			})
+			});
 		}
-	})
-})
+	});
+});
 
 // adding to favorites.
 router.post('/addFav',(req,res)=>{
@@ -328,7 +327,7 @@ router.post('/addFav',(req,res)=>{
 			if((deets[0].tokenEXP * 1000) <= date){
 				res.json({
 					msg: 'loginAgain'
-				})
+				});
 			}else{
 				var userID = deets[0].userID;
 				//checking to see if you have favs in there for that spot.
@@ -338,26 +337,26 @@ router.post('/addFav',(req,res)=>{
 						dB(query.updateFav,[info.isFav,userID,info.locationID]).then(()=>{
 							res.json({
 								msg: 'favChange'
-							})
-						})
+							});
+						});
 					}else if(favs.length === 0){
 						//you don't. let's add it.
 						dB(query.addFav,[info.locationID,userID,info.isFav]).then(()=>{
 							res.json({
 								msg: 'favAdded'
-							})
-						})
+							});
+						});
 					}
-				})
+				});
 			}
 		}else{
 			//don't do this to me.
 			res.json({
 				msg: 'register'
-			})
+			});
 		}
-	})
-})
+	});
+});
 
 //generic user profile pages
 router.post('/profile',(req,res)=>{
@@ -367,14 +366,14 @@ router.post('/profile',(req,res)=>{
 		if(deets.length > 0){
 			res.json({
 				deets: deets
-			})
+			});
 		}else{
 			res.json({
 				msg: 'shitBroke'
-			})
+			});
 		}
-	})
-})
+	});
+});
 
 //finding what is closest to user based on miles they put in
 router.post('/userDist',(req,res)=>{
@@ -383,13 +382,13 @@ router.post('/userDist',(req,res)=>{
 	// promises in promises in promises in pro...
 	var check = new Promise((resolve,reject)=>{
 		resolve(distanceCheck(info,dist))
-	})
+	});
 	check.then((deet)=>{
 		res.json({
 			spots: deets
-		})
-	})
-})
+		});
+	});
+});
 
 
 
