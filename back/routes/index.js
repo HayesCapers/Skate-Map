@@ -13,13 +13,13 @@ router.get('/', function(req, res, next) {
 router.post('/login',(req,res)=>{
 	var userName = req.body.userName;
 	var password = req.body.password;
-	dB(query.userCheck,[userName]).then((results) => {
-		if(results.length > 0){
-			var checkHash = bcrypt.compareSync(password,results[0].password);
+	dB(query.userCheck,[userName]).then((deets) => {
+		if(deets.length > 0){
+			var checkHash = bcrypt.compareSync(password,deets[0].password);
 			var token = randToken.uid(40);
 			if(checkHash){
 				// yay you got your password correct and now you get to login
-				dB(query.login,[token,userName]).then((logRes)=>{
+				dB(query.login,[token,userName]).then((logDeets)=>{
 					res.json({
 						msg: 'Success',
 						userName: userName,
@@ -47,19 +47,19 @@ router.post('/register', (req,res)=>{
 	var reg = req.body;
 	var hash = bcrypt.hashSync(reg.password);
 	var token = randToken.uid(40);
-	dB(query.regUserCheck,[reg.userName,reg.email]).then((results)=>{
-		if(results.length > 0){
-			if(results[0].email === reg.email){
+	dB(query.regUserCheck,[reg.userName,reg.email]).then((deets)=>{
+		if(deets.length > 0){
+			if(deets[0].email === reg.email){
 				res.json({
 					msg: 'emailTaken'
 				})
-			}else if(results[0].userName === reg.userName){
+			}else if(deets[0].userName === reg.userName){
 				res.json({
 					msg: 'nameTaken'
 				})
 			}
 		}else{
-			dB(query.register,[reg.userName,reg.email,hash,reg.phone,token]).then((regRes)=>{
+			dB(query.register,[reg.userName,reg.email,hash,reg.phone,token]).then((regDeets)=>{
 				res.json({
 					msg: 'Success',
 					userName: reg.userName,
@@ -75,11 +75,11 @@ router.post('/register', (req,res)=>{
 router.post('/account', (req,res)=>{
 	var acct = req.body;
 	var token = req.body.token;
-	dB(query.account,[token]).then((results)=>{
-		if(results.length > 0){
+	dB(query.account,[token]).then((deets)=>{
+		if(deets.length > 0){
 			var date = Date.now();
 			// checking to see if your token has expired
-			if((results[0].tokenEXP * 1000) <= date){
+			if((deets[0].tokenEXP * 1000) <= date){
 				// it has
 				res.json({
 					msg: 'loginAgain'
@@ -88,9 +88,9 @@ router.post('/account', (req,res)=>{
 				// you're in luck. no need to re-login.
 				res.json({
 					msg: 'accountAccess',
-					userName: results[0].userName,
-					email: results[0].email,
-					phone: results[0].phoneNumber,
+					userName: deets[0].userName,
+					email: deets[0].email,
+					phone: deets[0].phoneNumber,
 					token: token
 				})
 			}
@@ -107,16 +107,17 @@ router.post('/account', (req,res)=>{
 router.post('/updateAccount', (req,res)=>{
 	var acct = req.body;
 	var token = req.body.token;
-	dB(query.account,[token]).then((results)=>{
-		if(results.length > 0){
+	//obligatory tokenEXP check
+	dB(query.account,[token]).then((deets)=>{
+		if(deets.length > 0){
 			var date = Date.now();
-			if((results[0].tokenEXP * 1000) <= date){
+			if((deets[0].tokenEXP * 1000) <= date){
 				res.json({
 					msg: 'loginAgain'
 				})
 			}else{
 				// update account with new password
-				var checkHash = bcrypt.compareSync(acct.currPass,results[0].password);				
+				var checkHash = bcrypt.compareSync(acct.currPass,deets[0].password);				
 				if((checkHash === true) && (acct.newPass !== '')){
 					var hash = bcrypt.hashSync(acct.newPass);
 					dB(query.updateWithPass,[acct.userName,acct.email,hash,acct.phone]).then((upAcRes)=>{
@@ -147,6 +148,7 @@ router.post('/updateAccount', (req,res)=>{
 				}
 			}
 		}else{
+			//your ass needs to register
 			res.json({
 				msg: 'register'
 			})
@@ -161,21 +163,41 @@ router.post('/initMarkers',(req,res)=>{
 	var check = new Promise((resolve,reject)=>{
 		resolve(distanceCheck(info))
 	})
-	check.then((results)=>{
+	check.then((deets)=>{
 		res.json({
-			spots: results
+			spots: deets
 		})
 	})
 })
 
-router.post('/reviews', (req,res)=>{
+//gotta get the deets bruh
+router.post('/deets',(req,res)=>{
 	var info = req.body.locationID;
-	dB(query.reviews,[info]).then((results)=>{
-		if(results.length > 0){
+	dB(query.detailed,[info]).then((deets)=>{
+		if(deets.length > 0){
+			//givin ya the deets bruh
 			res.json({
-				reviews: results
+				deets: deets
 			})
 		}else{
+			res.json({
+				msg: 'shitBroke'
+			})
+		}
+	})
+})
+
+//review page
+router.post('/reviews', (req,res)=>{
+	var info = req.body.locationID;
+	dB(query.reviews,[info]).then((deets)=>{
+		if(deets.length > 0){
+			//for deets if they exist
+			res.json({
+				reviews: deets
+			})
+		}else{
+			//because some might not have any
 			res.json({
 				reviews: []
 			})
@@ -186,20 +208,26 @@ router.post('/reviews', (req,res)=>{
 router.post('/addReview', (req,res)=>{
 	var info = req.body;
 	var token = req.body.token;
-	dB(query.account,[token]).then((results)=>{
-		if(results.length > 0){
+	// token checks for all
+	dB(query.account,[token]).then((deets)=>{
+		if(deets.length > 0){
 			var date = Date.now();
-			if((results[0].tokenEXP * 1000) <= date){
+			if((deets[0].tokenEXP * 1000) <= date){
+				//expired. login, yo.
 				res.json({
 					msg: 'loginAgain'
 				})
-			}else{	
+			}else{
+				//not expired, yay.
 				dB(query.userCheck,[info.userName]).then((user)=>{
 					if(user.length === 0){
+						//just in case... i guess?
 						res.json({
-							msg: 'somethingBroke'
+							msg: 'shitBroke'
 						})
 					}else{
+						//lets add that review. 
+						//gotta get everything in order first.
 						var userID = user[0].userID;
 						var spotArr = [
 							info.locationID,
@@ -208,6 +236,7 @@ router.post('/addReview', (req,res)=>{
 							info.review,
 							info.isFav
 						]
+						//sending all the deets to get back a message updating you that its added
 						dB(query.addSpotReview,spotArr).then(()=>{
 							res.json({
 								msg: 'reviewAdded'
@@ -217,6 +246,7 @@ router.post('/addReview', (req,res)=>{
 				})
 			}
 		}else{
+			//srsly. register.
 			res.json({
 				msg: 'register'
 			})
@@ -224,12 +254,14 @@ router.post('/addReview', (req,res)=>{
 	})
 })
 
+//basic security levels page.
 router.post('/security', (req,res)=>{
 	var info = req.body.locationID;
-	dB(query.secReviews,[info]).then((results)=>{
-		if(results.length > 0){
+	//dem deets tho
+	dB(query.secReviews,[info]).then((deets)=>{
+		if(deets.length > 0){
 			res.json({
-				secReviews: results
+				secReviews: deets
 			})
 		}else{
 			res.json({
@@ -239,21 +271,24 @@ router.post('/security', (req,res)=>{
 	})
 })
 
+//add security info for spots
 router.post('/addSecReview', (req,res)=>{
 	var info = req.body;
 	var token = req.body.token;
-	dB(query.account,[token]).then((results)=>{
-		if(results.length > 0){
+	//yay. obligations.
+	dB(query.account,[token]).then((deets)=>{
+		if(deets.length > 0){
 			var date = Date.now();
-			if((results[0].tokenEXP * 1000) <= date){
+			if((deets[0].tokenEXP * 1000) <= date){
 				res.json({
 					msg: 'loginAgain'
 				})
 			}else{	
 				dB(query.userCheck,[info.userName]).then((user)=>{
+					//hope this never gets seen.
 					if(user.length === 0){
 						res.json({
-							msg: 'somethingBroke'
+							msg: 'shitBroke'
 						})
 					}else{
 						var userID = user[0].userID;
@@ -265,6 +300,7 @@ router.post('/addSecReview', (req,res)=>{
 							info.isFav
 						]
 						dB(query.addSecReview,spotArr).then(()=>{
+							// boom. added.
 							res.json({
 								msg: 'secReviewAdded'
 							})
@@ -273,6 +309,7 @@ router.post('/addSecReview', (req,res)=>{
 				})
 			}
 		}else{
+			//oh come on.
 			res.json({
 				msg: 'register'
 			})
@@ -280,26 +317,31 @@ router.post('/addSecReview', (req,res)=>{
 	})
 })
 
+// adding to favorites.
 router.post('/addFav',(req,res)=>{
 	var info = req.body;
 	var token = req.body.token;
-	dB(query.account,[token]).then((results)=>{
-		if(results.length > 0){
+	// and another one.
+	dB(query.account,[token]).then((deets)=>{
+		if(deets.length > 0){
 			var date = Date.now();
-			if((results[0].tokenEXP * 1000) <= date){
+			if((deets[0].tokenEXP * 1000) <= date){
 				res.json({
 					msg: 'loginAgain'
 				})
 			}else{
-				var userID = results[0].userID;
+				var userID = deets[0].userID;
+				//checking to see if you have favs in there for that spot.
 				dB(query.favCheck,[userID,info.locationID]).then((favs)=>{
 					if(favs.length !== 0){
+						// you do. lets update it.
 						dB(query.updateFav,[info.isFav,userID,info.locationID]).then(()=>{
 							res.json({
 								msg: 'favChange'
 							})
 						})
 					}else if(favs.length === 0){
+						//you don't. let's add it.
 						dB(query.addFav,[info.locationID,userID,info.isFav]).then(()=>{
 							res.json({
 								msg: 'favAdded'
@@ -309,6 +351,7 @@ router.post('/addFav',(req,res)=>{
 				})
 			}
 		}else{
+			//don't do this to me.
 			res.json({
 				msg: 'register'
 			})
@@ -316,7 +359,39 @@ router.post('/addFav',(req,res)=>{
 	})
 })
 
+//generic user profile pages
+router.post('/profile',(req,res)=>{
+	var userName = req.body.userName;
+	//all the deets.
+	dB(userCheck,[userName]).then((deets)=>{
+		if(deets.length > 0){
+			res.json({
+				deets: deets
+			})
+		}else{
+			res.json({
+				msg: 'shitBroke'
+			})
+		}
+	})
+})
+
+//finding what is closest to user based on miles they put in
+router.post('/userDist',(req,res)=>{
+	var info = [req.body.lat, req.body.lon];
+	var dist = req.body.dist;
+	// promises in promises in promises in pro...
+	var check = new Promise((resolve,reject)=>{
+		resolve(distanceCheck(info,dist))
+	})
+	check.then((deet)=>{
+		res.json({
+			spots: deets
+		})
+	})
+})
 
 
 
+// work it.
 module.exports = router;

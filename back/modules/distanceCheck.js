@@ -4,11 +4,11 @@ var dB = require('./dB');
 var query = require('./query');
 
 
-function distanceCheck(currentPosition){
+function distanceCheck(currentPosition,dist = 15){
 	return dB(query.locations).then((results)=>{
 		var array = []
 		results.map((locations)=>{
-			var distKM = 24.1401;
+			var distKM = (dist * 1.60934);
 			var initLatLon = [locations.latitude,locations.longitude];
 			if(haversine(currentPosition,initLatLon) < distKM){
 				array.push(locations)

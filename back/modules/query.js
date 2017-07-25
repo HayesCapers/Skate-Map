@@ -2,6 +2,7 @@
 
 var query = {
 	userCheck: 'SELECT * FROM __users WHERE userName = ?',
+	profile: 'select userName,city,state,deets,phoneNumber,email from __users where userName = ?',
 	login: `UPDATE __users SET token = ?, tokenEXP = DATE_ADD(NOW(), INTERVAL 1 WEEK) WHERE userName = ?`,
 	register: 'INSERT INTO __users (userName, email, password, phoneNumber, token, tokenEXP) VALUES (?,?,?,?,?, UNIX_TIMESTAMP(DATE_ADD(NOW(), INTERVAL 1 WEEK)))',
 	regUserCheck: 'SELECT * FROM __users WHERE userName = ? OR email = ?',
