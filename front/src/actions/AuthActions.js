@@ -1,5 +1,4 @@
 
-import { Actions } from 'react-native-router-flux'
 import { 
 	USERNAME_CHANGED,
 	PASSWORD_CHANGED,
@@ -8,6 +7,7 @@ import {
 	LOGIN_USER_FAIL
  } from './types';
  import { loginUserFail, loginUserSuccess } from './common';
+ 
  const { axiosReq } = require('../../my_mods');
 
 export const emailChanged = (text) => {

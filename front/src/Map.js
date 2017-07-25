@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { View, StyleSheet } from 'react-native';
 import MapView from 'react-native-maps';
+import { connect } from 'react-redux';
+import { getSpotDetails } from './actions/SpotActions';
 const { axiosReq } = require('../my_mods');
 
 
@@ -58,7 +60,9 @@ class Map extends Component {
 	}
 
 	showDetails(e) {
-		console.log(e.nativeEvent.id)
+		const spotID = e.nativeEvent.id
+
+		getSpotDetails(spotID)
 	}
 
 	render() {
@@ -73,7 +77,7 @@ class Map extends Component {
 					}}
 					title={spot.locationName}
 					description={
-						`rating: ${spot.rating} security level: ${spot.securityLevel}`
+						`rating: ${spot.rating} security level: ${spot.secRating}`
 					}
 					identifier={id}
 					key={index}
@@ -112,7 +116,7 @@ const styles = {
 	  },
 }
 
-export default Map
+export default connect(null,{ getSpotDetails })(Map);
 
 
 

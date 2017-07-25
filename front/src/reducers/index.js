@@ -4,5 +4,6 @@ import RegisterReducer from './RegisterReducer';
 
 export default combineReducers({
 	auth: AuthReducer,
-	registerForm: RegisterReducer
+	registerForm: RegisterReducer,
+	spot: SpotReducer
 })
