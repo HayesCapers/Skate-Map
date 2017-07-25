@@ -146,6 +146,10 @@ router.post('/updateAccount', (req,res)=>{
 					})
 				}
 			}
+		}else{
+			res.json({
+				msg: 'register'
+			})
 		}
 	})
 });
@@ -163,6 +167,155 @@ router.post('/initMarkers',(req,res)=>{
 		})
 	})
 })
+
+router.post('/reviews', (req,res)=>{
+	var info = req.body.locationID;
+	dB(query.reviews,[info]).then((results)=>{
+		if(results.length > 0){
+			res.json({
+				reviews: results
+			})
+		}else{
+			res.json({
+				reviews: []
+			})
+		}
+	})
+})
+
+router.post('/addReview', (req,res)=>{
+	var info = req.body;
+	var token = req.body.token;
+	dB(query.account,[token]).then((results)=>{
+		if(results.length > 0){
+			var date = Date.now();
+			if((results[0].tokenEXP * 1000) <= date){
+				res.json({
+					msg: 'loginAgain'
+				})
+			}else{	
+				dB(query.userCheck,[info.userName]).then((user)=>{
+					if(user.length === 0){
+						res.json({
+							msg: 'somethingBroke'
+						})
+					}else{
+						var userID = user[0].userID;
+						var spotArr = [
+							info.locationID,
+							userID,
+							info.rating,
+							info.review,
+							info.isFav
+						]
+						dB(query.addSpotReview,spotArr).then(()=>{
+							res.json({
+								msg: 'reviewAdded'
+							})
+						})
+					}
+				})
+			}
+		}else{
+			res.json({
+				msg: 'register'
+			})
+		}
+	})
+})
+
+router.post('/security', (req,res)=>{
+	var info = req.body.locationID;
+	dB(query.secReviews,[info]).then((results)=>{
+		if(results.length > 0){
+			res.json({
+				secReviews: results
+			})
+		}else{
+			res.json({
+				secReviews: []
+			})
+		}
+	})
+})
+
+router.post('/addSecReview', (req,res)=>{
+	var info = req.body;
+	var token = req.body.token;
+	dB(query.account,[token]).then((results)=>{
+		if(results.length > 0){
+			var date = Date.now();
+			if((results[0].tokenEXP * 1000) <= date){
+				res.json({
+					msg: 'loginAgain'
+				})
+			}else{	
+				dB(query.userCheck,[info.userName]).then((user)=>{
+					if(user.length === 0){
+						res.json({
+							msg: 'somethingBroke'
+						})
+					}else{
+						var userID = user[0].userID;
+						var spotArr = [
+							info.locationID,
+							userID,
+							info.rating,
+							info.review,
+							info.isFav
+						]
+						dB(query.addSecReview,spotArr).then(()=>{
+							res.json({
+								msg: 'secReviewAdded'
+							})
+						})
+					}
+				})
+			}
+		}else{
+			res.json({
+				msg: 'register'
+			})
+		}
+	})
+})
+
+router.post('/addFav',(req,res)=>{
+	var info = req.body;
+	var token = req.body.token;
+	dB(query.account,[token]).then((results)=>{
+		if(results.length > 0){
+			var date = Date.now();
+			if((results[0].tokenEXP * 1000) <= date){
+				res.json({
+					msg: 'loginAgain'
+				})
+			}else{
+				var userID = results[0].userID;
+				dB(query.favCheck,[userID,info.locationID]).then((favs)=>{
+					if(favs.length !== 0){
+						dB(query.updateFav,[info.isFav,userID,info.locationID]).then(()=>{
+							res.json({
+								msg: 'favChange'
+							})
+						})
+					}else if(favs.length === 0){
+						dB(query.addFav,[info.locationID,userID,info.isFav]).then(()=>{
+							res.json({
+								msg: 'favAdded'
+							})
+						})
+					}
+				})
+			}
+		}else{
+			res.json({
+				msg: 'register'
+			})
+		}
+	})
+})
+
 
 
 
