@@ -168,6 +168,21 @@ router.post('/initMarkers',(req,res)=>{
 	})
 })
 
+router.post('/deets',(req,res)=>{
+	var info = req.body.locationID;
+	dB(query.detailed,[info]).then((deets)=>{
+		if(deets.length > 0){
+			res.json({
+				deets: deets
+			})
+		}else{
+			res.json({
+				msg: 'shitBroke'
+			})
+		}
+	})
+})
+
 router.post('/reviews', (req,res)=>{
 	var info = req.body.locationID;
 	dB(query.reviews,[info]).then((results)=>{

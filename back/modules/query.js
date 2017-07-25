@@ -8,7 +8,7 @@ var query = {
 	account: 'SELECT * FROM __users WHERE token = ?',
 	updateNoPass: 'UPDATE __users SET userName = ?, email = ?, phoneNumber = ? WHERE token  = ?',
 	updateWithPass: 'UPDATE __users SET userName = ?, email = ?, password = ?, phoneNumber = ? WHERE token  = ?',
-	favCheck: 'select * from __spotReviews where userID = ? and locationID = ?'
+	favCheck: 'select * from __spotReviews where userID = ? and locationID = ?',
 	addFav: 'insert into __spotReviews (locationID,userID,isFav) values (?,?,?)',
 	updateFav: 'update __spotReviews set isFav = ? where userID = ? and locationID = ?',
 	reviews: 'select a.locationID,a.locationName,c.userID,c.userName,b.rating,b.review from __spots a inner join __spotReviews b on a.locationID = b.locationID inner join __users c on b.userID = c.userID where a.locationID = ?',
