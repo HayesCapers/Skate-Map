@@ -212,7 +212,7 @@ router.post('/addReview', (req,res)=>{
 				dB(query.userCheck,[info.userName]).then((user)=>{
 					if(user.length === 0){
 						res.json({
-							msg: 'somethingBroke'
+							msg: 'shitBroke'
 						})
 					}else{
 						var userID = user[0].userID;
@@ -268,7 +268,7 @@ router.post('/addSecReview', (req,res)=>{
 				dB(query.userCheck,[info.userName]).then((user)=>{
 					if(user.length === 0){
 						res.json({
-							msg: 'somethingBroke'
+							msg: 'shitBroke'
 						})
 					}else{
 						var userID = user[0].userID;
@@ -328,6 +328,35 @@ router.post('/addFav',(req,res)=>{
 				msg: 'register'
 			})
 		}
+	})
+})
+
+router.post('/profile',(req,res)=>{
+	var userName = req.body.userName;
+	dB(userCheck,[userName]).then((deets)=>{
+		if(deets.length > 0){
+			res.json({
+				deets: deets
+			})
+		}else{
+			res.json({
+				msg: 'shitBroke'
+			})
+		}
+	})
+})
+
+router.post('/userDist',(req,res)=>{
+	var info = [req.body.lat, req.body.lon];
+	var dist = req.body.dist;
+	// promises. so many promises
+	var check = new Promise((resolve,reject)=>{
+		resolve(distanceCheck(info,dist))
+	})
+	check.then((results)=>{
+		res.json({
+			spots: results
+		})
 	})
 })
 
