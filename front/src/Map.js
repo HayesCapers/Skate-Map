@@ -12,8 +12,8 @@ class Map extends Component {
 			initLocation: {
 				latitude: 33.8499041,
 				longitude: -84.3730464,
-				latitudeDelta: 0.05,
-				longitudeDelta: 0.05,
+				latitudeDelta: 0.02,
+				longitudeDelta: 0.02,
 			},
 			spots: []
 		}

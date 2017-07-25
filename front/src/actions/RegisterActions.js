@@ -1,4 +1,4 @@
-var axios = require('axios')
+
 import { Actions } from 'react-native-router-flux';
 import {
 	REGISTER_UPDATE,
@@ -6,6 +6,8 @@ import {
 	LOGIN_USER_FAIL,
 	LOGIN_USER_SUCCESS
 } from './types';
+import { registerUserSuccess, registerUserFail } from './common';
+const { axiosReq } = require('../../my_mods');
 
 
 export const registerUpdate = ({ prop, value }) => {
@@ -20,11 +22,8 @@ export const registerUser = (user) => {
 		dispatch({ type: REGISTER_USER })
 
 		const url = 'http://localhost:3000/register'
-		axios({
-				method: 'post',
-				url: url,
-				data: user
-			}).then(user => {
+		axiosReq('post',url,user)
+			.then(user => {
 				if (user.status === 200) {
 					registerUserSuccess(dispatch,user.data)
 				} else {
@@ -34,18 +33,5 @@ export const registerUser = (user) => {
 	}	
 } 
 
-const registerUserFail = (dispatch) => {
-	dispatch({
-		type: LOGIN_USER_FAIL
-	})
-}
 
-const registerUserSuccess = (dispatch, user) => {
-	dispatch({
-		type: LOGIN_USER_SUCCESS,
-		payload: user
-	});
-
-	Actions.main()
-}
 
