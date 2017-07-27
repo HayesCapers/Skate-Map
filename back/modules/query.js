@@ -35,8 +35,10 @@ var query = {
 	locations: 'SELECT a.locationID,a.locationName,a.latitude,a.longitude,avg(b.rating) as rating, avg(c.secRating) as secRating FROM __spots a inner join __spotReviews b on a.locationID = b.locationID inner join __securityReviews c on a.locationID = c.locationID group by a.locationID',
 	//detailed query to get all relevant info for individual spots
 	detailed: 'select b.locationName,b.city,b.state,b.description,b.img,count(a.rating) as totalRatings, AVG(a.rating) as averageRating from __spotReviews a inner join __spots b on a.locationID = b.locationID where a.locationID = ?',
-
-	img: 'select img from __spots where locationID = ?'
+	//insert query for new spot to be made
+	addSpot: 'insert into __spots (locationName,city,state,longitude,latitude,description,img) values (?,?,?,?,?,?,?)',
+	//quick query for just locationID
+	locID: 'select locationID where latitude = ? and longitude = ?'
 }
 
 module.exports = query;
