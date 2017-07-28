@@ -12,7 +12,10 @@ class Spot extends Component {
 			<Card>
 
 				<CardSection>
-					<Image source={require('../img/spot-placeholder.png')} />
+					<Image 
+						style={{ height: 300, width: 300 }}
+						source={{ uri : 'https://s3.amazonaws.com/s3-skatespot/images/phoneham.jpg' }} 
+					/>
 				</CardSection>
 
 				<CardSection>

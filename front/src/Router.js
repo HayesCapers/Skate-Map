@@ -4,6 +4,8 @@ import LoginForm from './components/LoginForm';
 import RegisterForm from './components/RegisterForm';
 import Map from './Map';
 import Spot from './components/Spot';
+import CreateSpot from './components/CreateSpot';
+import Camera from './components/Camera';
 
 
 class AppRouter extends Component {
@@ -19,6 +21,8 @@ class AppRouter extends Component {
 				<Scene key='main'>
 					<Scene key='map' component={Map} title='Map' />
 					<Scene key='spot' component={Spot} title='spot' />
+					<Scene key='spotForm' component={CreateSpot} title='Create New Spot' />
+					<Scene key='camera' component={Camera} title='camera' />
 				</Scene>
 
 			</Router>

@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { View, StyleSheet } from 'react-native';
+import { Button, CardSection } from './components/common';
 import MapView from 'react-native-maps';
+import { Actions } from 'react-native-router-flux'
 import { connect } from 'react-redux';
 import { getSpotDetails } from './actions/SpotActions';
 const { axiosReq } = require('../my_mods');
@@ -96,6 +98,13 @@ class Map extends Component {
 				>
                     {spotBox}
 				</MapView>
+				<CardSection>
+					<Button
+					onPress={() => Actions.spotForm()}
+					>
+						+
+					</Button>
+				</CardSection>
 			</View>
 		)
 	}

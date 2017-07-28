@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text } from 'react-native';
+import { Text, View } from 'react-native';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 import { emailChanged, passwordChanged, loginUser } from '../actions/AuthActions';
@@ -23,7 +23,7 @@ class LoginForm extends Component {
 
 	render(){
 		return(
-			<Card>
+			<View>
 				<CardSection>
 					<Input 
 						placeholder='user'
@@ -63,7 +63,7 @@ class LoginForm extends Component {
 					</Button>
 				</CardSection>
 
-			</Card>
+			</View>
 		)
 	}
 }
