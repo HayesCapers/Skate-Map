@@ -1,13 +1,20 @@
 export const USERNAME_CHANGED = 'username_changed';
 export const PASSWORD_CHANGED = 'password_changed';
-export const LOGIN_USER_SUCCESS = 'login_user_success'
-export const LOGIN_USER_FAIL = 'login_user_fail'
+export const LOGIN_USER_SUCCESS = 'login_user_success';
+export const LOGIN_USER_FAIL = 'login_user_fail';
 export const LOGIN_USER = 'login_user';
 export const REGISTER_UPDATE = 'register_update';
 export const REGISTER_USER = 'register_user';
 export const REGISTER_USER_FAIL = 'register_user_fail';
 export const REGISTER_USER_SUCCESS = 'register_user_success';
-export const GET_SPOT = 'get_spot'
-export const GET_SPOT_SUCCESS = 'get_spot_success'
-export const GET_SPOT_FAIL = 'get_spot_fail'
+export const GET_SPOT = 'get_spot';
+export const GET_SPOT_SUCCESS = 'get_spot_success';
+export const GET_SPOT_FAIL = 'get_spot_fail';
+export const CURRENT_LOCATION = 'current_location';
+export const INPUT_UPDATE = 'input_update';
+export const TAKE_PICTURE = 'take_picture';
+export const SUBMIT_NEW_SPOT = 'submit_new_spot';
+export const CREATE_NEW_SPOT = 'create_new_spot';
+export const CREATE_SPOT_FAIL = 'create_spot_fail';
+export const CREATE_SPOT_SUCCESS = 'create_spot_success';
 

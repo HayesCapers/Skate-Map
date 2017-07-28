@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import { View, StyleSheet } from 'react-native';
+import { Button, CardSection } from './components/common';
 import MapView from 'react-native-maps';
+import { Actions } from 'react-native-router-flux'
 import { connect } from 'react-redux';
 import { getSpotDetails } from './actions/SpotActions';
+import { saveLatLon } from './actions/CreateSpotActions';
 const { axiosReq } = require('../my_mods');
 
 
@@ -50,6 +53,7 @@ class Map extends Component {
 
 		axiosReq('post',url,data)
 			.then(res => {
+				console.log(res.data.spots)
 				res.data.spots.map(spot => {
 					spotArr.push(spot)
 				})
@@ -63,6 +67,13 @@ class Map extends Component {
 		const spotID = e.nativeEvent.id
 
 		this.props.getSpotDetails(spotID)
+	}
+
+	saveCurrentLocation() {
+		const { latitude, longitude } = this.state.initLocation
+
+		this.props.saveLatLon(latitude, longitude);
+		Actions.spotForm();
 	}
 
 	render() {
@@ -96,6 +107,13 @@ class Map extends Component {
 				>
                     {spotBox}
 				</MapView>
+				<CardSection>
+					<Button
+					onPress={this.saveCurrentLocation.bind(this)}
+					>
+						+
+					</Button>
+				</CardSection>
 			</View>
 		)
 	}
@@ -116,7 +134,7 @@ const styles = {
 	  },
 }
 
-export default connect(null,{ getSpotDetails })(Map);
+export default connect(null,{ getSpotDetails, saveLatLon })(Map);
 
 
 
