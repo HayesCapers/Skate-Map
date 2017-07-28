@@ -187,13 +187,39 @@ router.post('/deets',(req,res)=>{
 	});
 });
 
-router.get('/img/:id',(req,res)=>{
-   	var id = req.params.id;
-	dB(query.img,[id]).then((deets)=>{
-	   	res.end(deets[0].img, 'binary')
-	})	
-   
-})
+//adding brand new spot to the dB. Sending back the spotID
+router.post('/addSpot',(req,res)=>{
+	//incoming info from form submission
+   	var info = [
+   		req.body.locationName,
+   		req.body.city,
+   		req.body.state,
+   		req.body.longitude,
+   		req.body.latitude,
+   		req.body.description,
+   		req.body.img
+   	];
+   	//insert spot into dB
+	dB(query.addSpot,info).then((deets)=>{
+		//console.log to see if deets returns the new locationID, if not, then following query is setup for it.
+		console.log(deets)
+		//quick (hopefully) dB query to get locationID by lon and lat
+		dB(query.locID,[req.body.latitude,req.body.longitude]).then((results)=>{
+			if(results.length === 0){
+				//clearly something is wrong
+				res.json({
+					msg: 'shitBroke'
+				});
+			}else{
+				//and working.
+				res.json({
+					msg: 'spotAdded',
+					spotID: results[0].locationID
+				});
+			}
+		});
+	});
+});
 
 
 
