@@ -8,8 +8,8 @@ import { Card, CardSection, Input, Button } from './common';
 class CreateSpot extends Component {
 
 	submitSpot() {
-		const { title, city, state, description, image } = this.props
-		const spot = { title, city, state, description, image }
+		const { title, city, state, description, image, latitude, longitude } = this.props
+		const spot = { locationName: title, city, state, description, image, latitude, longitude }
 
 		this.props.submitNewSpot(spot)
 	}
@@ -84,9 +84,9 @@ class CreateSpot extends Component {
 }
 
 const mapStateToProps = ({ newSpot }) => {
-	const { title, city, state, description, image } = newSpot
+	const { title, city, state, description, image, latitude, longitude } = newSpot
 
-	return { title, city, state, description, image }
+	return { title, city, state, description, image, latitude, longitude }
 }
 
 export default connect(mapStateToProps,{ inputUpdate, submitNewSpot })(CreateSpot);

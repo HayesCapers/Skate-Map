@@ -1,3 +1,4 @@
 
 
-export * from './AuthPassFail'
+export * from './AuthPassFail';
+export * from './SpotPassFail';

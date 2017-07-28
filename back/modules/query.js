@@ -38,7 +38,7 @@ var query = {
 	//insert query for new spot to be made
 	addSpot: 'insert into __spots (locationName,city,state,longitude,latitude,description,img) values (?,?,?,?,?,?,?)',
 	//quick query for just locationID
-	locID: 'select locationID where latitude = ? and longitude = ?'
+	locID: 'select locationID FROM __spots where latitude = ? and longitude = ?'
 }
 
 module.exports = query;

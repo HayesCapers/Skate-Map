@@ -1,6 +1,8 @@
 
 module.exports = {
 
-	axiosReq: require('./axiosRequest')
+	axiosReq: require('./axiosRequest'),
+
+	s3Upload: require('./uploadImageRequest')
 
 }
