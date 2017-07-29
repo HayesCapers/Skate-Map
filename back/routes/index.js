@@ -164,6 +164,7 @@ router.post('/initMarkers',(req,res)=>{
 		resolve(distanceCheck(info))
 	});
 	check.then((deets)=>{
+		// console.log(deets)
 		res.json({
 			spots: deets
 		});
