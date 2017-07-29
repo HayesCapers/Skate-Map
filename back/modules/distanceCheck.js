@@ -17,32 +17,7 @@ function distanceCheck(currentPosition,dist = 15){
 			var initLatLon = [locations.latitude,locations.longitude];
 			// distance is less than the requested distance
 			if(haversine(currentPosition,initLatLon) < distKM){
-				//time to grab the reviews
-				dB(query.avgs,locations.locationID).then((avgs)=>{
-					var loc = {};
-					if(avgs.length === 0){
-						loc = {
-							locationName: locations.locationName,
-							locationID: locations.locationID,
-							latitude: locations.latitude,
-							longitude: locations.longitude,
-							rating: 0,
-							secRating: 0
-						}
-						array.push(loc)
-					}else{
-						loc = {
-							locationName: locations.locationName,
-							locationID: locations.locationID,
-							latitude: locations.latitude,
-							longitude: locations.longitude,
-							rating: avgs.rating,
-							secRating: avgs.secRating
-						}
-					}
-					//so push loc
-					array.push(loc);
-				})
+				array.push(locations)
 			}
 		})
 		//return our array of values

@@ -32,7 +32,7 @@ var query = {
 	//adds a new secReview
 	addSecReview: 'insert into __securityReviews (locationID,userID,secRating,secReview) values (?,?,?,?);',
 	//inital markers query to get all locations
-	locations: 'select locationID,locationName,latitude,longitude from __spots',
+	locations: 'select a.locationID,a.locationName,a.latitude,a.longitude,avg(b.rating) as rating,avg(c.secRating) as secRating from __spots a left join __spotReviews b on a.locationID = b.locationID left join __securityReviews c on a.locationID = c.locationID GROUP by a.locationID',
 	//query for averages for locations by ID
 	avgs: 'select avg(a.rating) as rating, avg(b.secRating) as secRating from __spotReviews a inner join __securityReviews b on a.locationID = b.locationID where a.locationID = ?',
 	//detailed query to get all relevant info for individual spots
