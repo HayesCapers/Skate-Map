@@ -14,15 +14,15 @@ class AppRouter extends Component {
 			<Router sceneStyle={{ paddingTop: 65 }}>
 
 				<Scene key='auth'>
-					<Scene key='login' component={LoginForm} title='Login' />
-					<Scene key='register' component={RegisterForm} title='Register' />
+					<Scene key='login' component={LoginForm} title='Login' hideNavBar />
+					<Scene key='register' component={RegisterForm} title='Register' hideNavBar />
 				</Scene>
 
 				<Scene key='main'>
-					<Scene key='map' component={Map} title='Map' />
-					<Scene key='spot' component={Spot} title='spot' />
-					<Scene key='spotForm' component={CreateSpot} title='Create New Spot' />
-					<Scene key='camera' component={Camera} title='camera' />
+					<Scene key='map' component={Map} title='Map' hideNavBar />
+					<Scene key='spot' component={Spot} title='spot' hideNavBar />
+					<Scene key='spotForm' component={CreateSpot} title='Create New Spot' hideNavBar />
+					<Scene key='camera' component={Camera} title='camera' hideNavBar />
 				</Scene>
 
 			</Router>

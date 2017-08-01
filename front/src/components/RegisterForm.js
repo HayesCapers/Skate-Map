@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import { Text } from 'react-native';
+import { Text, View } from 'react-native';
 import { connect } from 'react-redux';
-import { Card, Button, CardSection, Input, Spinner } from './common'; 
+import { Card, Button, CardSection, Input, Spinner, BackButton } from './common'; 
 import { registerUpdate, registerUser } from '../actions/RegisterActions';
+import Logo from './Logo';
+
 
 class RegisterForm extends Component {
 
@@ -15,26 +17,29 @@ class RegisterForm extends Component {
 
 	render() {
 		return(
-			<Card>
-				<CardSection>
+
+			<View>
+
+				<BackButton />
+
+				<Logo />
+
+				<View style={styles.form}>
+
 					<Input 
 						placeholder='NickSux'
 						label='Username'
 						onChangeText={value => this.props.registerUpdate({ prop: 'userName', value })}
 						value={this.props.userName}
 					/>
-				</CardSection>
 
-				<CardSection>
 					<Input 
 						placeholder='email@gmail.com'
 						label='Email'
 						onChangeText={value => this.props.registerUpdate({ prop: 'email', value })}
 						value={this.props.email}
 					/>
-				</CardSection>
 
-				<CardSection>
 					<Input 
 						secureTextEntry
 						placeholder='password'
@@ -42,27 +47,39 @@ class RegisterForm extends Component {
 						onChangeText={value => this.props.registerUpdate({ prop: 'password', value })}
 						value={this.props.password}
 					/>
-				</CardSection>
 
-				<CardSection>
 					<Input 
 						placeholder='555-555-5555'
 						label='Phone Number'
 						onChangeText={value => this.props.registerUpdate({ prop: 'phone', value })}
 						value={this.props.phone}
 					/>
-				</CardSection>
 
-				<CardSection>
-					<Button
-						onPress={this.onButtonPress.bind(this)}
-					>
-						Register
-					</Button>
-				</CardSection>
+				</View>	
 
-			</Card>
+				<View style={styles.button}>
+
+					<CardSection>
+						<Button
+							onPress={this.onButtonPress.bind(this)}
+						>
+							Register
+						</Button>
+					</CardSection>
+
+				</View>	
+
+			</View>	
 		)
+	}
+}
+
+const styles = {
+	form: {
+		marginTop: 10
+	},
+	button: {
+		marginTop: 10
 	}
 }
 

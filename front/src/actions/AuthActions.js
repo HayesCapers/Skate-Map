@@ -36,7 +36,8 @@ export const loginUser = (userName, password) => {
 
 		axiosReq('post',url,data)
 			.then(user => {
-				if (user.status === 200) {
+				console.log(user)
+				if (user.data.msg === 'Success') {
 					loginUserSuccess(dispatch,user)
 				} else {
 					loginUserFail(dispatch)

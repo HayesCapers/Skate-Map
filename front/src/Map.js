@@ -107,13 +107,15 @@ class Map extends Component {
 				>
                     {spotBox}
 				</MapView>
-				<CardSection>
-					<Button
-					onPress={this.saveCurrentLocation.bind(this)}
-					>
-						+
-					</Button>
-				</CardSection>
+				<View style={styles.button}>
+					<CardSection>
+						<Button
+						onPress={this.saveCurrentLocation.bind(this)}
+						>
+							+
+						</Button>
+					</CardSection>
+				</View>
 			</View>
 		)
 	}
@@ -122,8 +124,14 @@ class Map extends Component {
 
 const styles = {
 	container: {
-		position: 'relative',
-		height: 500
+		position: 'absolute',
+		top: 0,
+		left: 0,
+		right: 0,
+		bottom: 0,
+		flex: 1,
+    	justifyContent: 'center',
+    	alignItems: 'center',
 	  },
 	map: {
 		position: 'absolute',
@@ -132,6 +140,14 @@ const styles = {
 		right: 0,
 		bottom: 0,
 	  },
+	button: {
+		position: 'absolute',
+		bottom: 10,
+		right: 10,
+		alignItems: 'flex-end',
+		width: 75,
+		height: 75
+	} 
 }
 
 export default connect(null,{ getSpotDetails, saveLatLon })(Map);

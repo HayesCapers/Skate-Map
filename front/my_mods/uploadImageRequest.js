@@ -1,4 +1,5 @@
 import { RNS3 } from 'react-native-aws3';
+const { s3Key, s3Secret } = require('../config/config');
 
 
 module.exports = (path, name) => {
@@ -12,8 +13,8 @@ module.exports = (path, name) => {
 		keyPrefix: "images/",
 		bucket: "s3-skatespot",
 		region: "us-east-1",
-		accessKey: "AKIAIKYBFCBIKMB4SLYA",
-		secretKey: "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",
+		accessKey: s3Key,
+		secretKey: s3Secret,
 		successActionStatus: 201
 	}
 

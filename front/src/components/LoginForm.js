@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 import { emailChanged, passwordChanged, loginUser } from '../actions/AuthActions';
 import { Card, Button, CardSection, Input, Spinner } from './common';
+import Logo from './Logo';
 
 class LoginForm extends Component {
 
@@ -24,16 +25,18 @@ class LoginForm extends Component {
 	render(){
 		return(
 			<View>
-				<CardSection>
+
+				<Logo />
+
+				<View style={{ marginTop: 10 }}>
+
 					<Input 
 						placeholder='user'
 						label='Username'
 						onChangeText={this.onUserNameChange.bind(this)}
 						value={this.props.userName}
 					/>
-				</CardSection>
 
-				<CardSection>
 					<Input 
 						secureTextEntry
 						placeholder='password'
@@ -41,27 +44,32 @@ class LoginForm extends Component {
 						onChangeText={this.onPasswordChange.bind(this)}
 						value={this.props.password}
 					/>
-				</CardSection>
+
+				</View>	
 
 				<Text style={styles.errorTextStyle}>
 
 				</Text>
 
-				<CardSection>
-					<Button
-						onPress={this.onButtonPress.bind(this)}
-					>
-						Log in
-					</Button>
-				</CardSection>
+				<View style={{ marginTop: 10 }}>
 
-				<CardSection>
-					<Button
-						onPress={Actions.register}
-					>
-						Sign Up
-					</Button>
-				</CardSection>
+					<CardSection>
+						<Button
+							onPress={this.onButtonPress.bind(this)}
+						>
+							Log in
+						</Button>
+					</CardSection>
+
+					<CardSection>
+						<Button
+							onPress={Actions.register}
+						>
+							Sign Up
+						</Button>
+					</CardSection>
+
+				</View>
 
 			</View>
 		)
