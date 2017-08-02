@@ -1,17 +1,17 @@
 import React from 'react';
 import { View } from 'react-native';
 
-const CardSection = (props) => {
+const CardSection = ({ children, bgColor = '#111', opacity = 1 }) => {
 	return (
-		<View style={styles.containerStyle}>
-			{props.children}
+		<View style={{ ...styles.containerStyle, ...{ backgroundColor: bgColor, opacity } }}>
+			{children}
 		</View>
 	);
 };
 
 const styles = {
 	containerStyle: {
-		borderBottomWidth: 1,
+		borderBottomWidth: 0,
 		padding: 5,
 		marginLeft: 5,
 		marginRight: 5,
@@ -19,9 +19,12 @@ const styles = {
 		borderRadius: 2,
 		justifyContent: 'flex-start',
 		flexDirection: 'row',
-		backgroundColor: '#111',
 		borderColor: '#FFF',
-		position: 'relative'
+		position: 'relative',
+		shadowColor: '#000',
+		shadowOffset: { width: 0, height: 2},
+		shadowOpacity: .5,
+		shadowRadius: 3,
 	}
 }
 

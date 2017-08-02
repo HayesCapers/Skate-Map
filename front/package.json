@@ -14,6 +14,7 @@
 		"react-native-camera": "^0.9.4",
 		"react-native-maps": ">=0.15.3",
 		"react-native-router-flux": "3.38.0",
+		"react-native-vector-icons": "^4.3.0",
 		"react-redux": "^5.0.5",
 		"redux": "^3.7.2",
 		"redux-thunk": "^2.2.0"
@@ -28,6 +29,8 @@
 		"preset": "react-native"
 	},
 	"rnpm": {
-		"assets": ["./src/assets/fonts"]
+		"assets": [
+			"./src/assets/fonts"
+		]
 	}
 }

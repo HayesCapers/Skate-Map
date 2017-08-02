@@ -11,7 +11,7 @@ import Camera from './components/Camera';
 class AppRouter extends Component {
 	render() {
 		return(
-			<Router sceneStyle={{ paddingTop: 65 }}>
+			<Router>
 
 				<Scene key='auth'>
 					<Scene key='login' component={LoginForm} title='Login' hideNavBar />

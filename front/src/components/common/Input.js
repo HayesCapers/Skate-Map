@@ -1,20 +1,20 @@
 import React from 'react';
 import { TextInput, View, Text } from 'react-native';
 
-const Input = ({ label, value, onChangeText, placeholder, secureTextEntry, multiline = false, numberOfLines = 1, width = 250 }) => {
+const Input = ({ label, value, onChangeText, placeholder, secureTextEntry, multiline = false, numberOfLines = 1, width = 250, boxHeight = 35, containerHeight = 50 }) => {
 
 	inputWidth = width
 	const { inputStyle, labelStyle, containerStyle } = styles;
 
 	return(
-		<View style={containerStyle}>
+		<View style={{ ...containerStyle, ...{ height: containerHeight } }}>
 			<TextInput 
 				multiline={multiline}
 				numberOfLines={numberOfLines}
 				secureTextEntry={secureTextEntry}
 				placeholder={placeholder}
 				autoCorrect={false}
-				style={{ ...inputStyle, ...{ width }}}
+				style={{ ...inputStyle, ...{ width, height: boxHeight }}}
 				value={ value }
 				onChangeText={ onChangeText }
 				autoCapitalize={'none'}
@@ -36,7 +36,6 @@ const styles = {
 		shadowColor: '#111',
 		shadowOffset: { width: 0, height: 2},
 		shadowOpacity: 0.2,
-		height: 35
 	},
 	// labelStyle: {
 	// 	color: '#FFF',
@@ -45,7 +44,6 @@ const styles = {
 	// 	flex: 1
 	// },
 	containerStyle: {
-		height: 50,
 		flexDirection: 'row',
 		alignItems: 'center',
 		alignSelf: 'center'
