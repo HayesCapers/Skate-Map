@@ -17,4 +17,7 @@ export const SUBMIT_NEW_SPOT = 'submit_new_spot';
 export const CREATE_NEW_SPOT = 'create_new_spot';
 export const CREATE_SPOT_FAIL = 'create_spot_fail';
 export const CREATE_SPOT_SUCCESS = 'create_spot_success';
+export const GET_USER_DETAILS = 'get_user_details';
+export const GET_USER_DETAILS_FAIL = 'get_user_details_fail';
+export const GET_USER_DETAILS_SUCCESS = 'get_user_details_success';
 

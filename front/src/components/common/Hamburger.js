@@ -3,7 +3,10 @@ import { Image, TouchableOpacity } from 'react-native';
 
 const Hamburger = (props) => {
 	return(
-		<TouchableOpacity>
+		<TouchableOpacity
+			style={styles.container}
+			onPress={props.onPress}
+		>
 			<Image 
 			style={styles.image}
 			source={require('../../assets/images/hamburger.png')}
@@ -13,6 +16,10 @@ const Hamburger = (props) => {
 }
 
 const styles = {
+	container:{
+		marginTop: 30,
+		width: 50
+	},
 	image: {
 		height: 50,
 		width: 50,

@@ -90,9 +90,6 @@ class Map extends Component {
 					}}
 					image={require('./assets/images/marker-3.png')}
 					title={spot.locationName}
-					description={
-						`rating: ${spot.rating} security level: ${spot.secRating}`
-					}
 					identifier={id}
 					key={index}
 					onPress={this.showDetails.bind(this)}
@@ -129,11 +126,6 @@ class Map extends Component {
 							+
 						</Button>
 					</CardSection>
-
-				</View>
-
-				<View style={styles.ham}>
-					<Hamburger />
 				</View>
 
 			</View>

@@ -6,9 +6,9 @@ import {
 	LOGIN_USER,
 	LOGIN_USER_FAIL
  } from './types';
- import { loginUserFail, loginUserSuccess } from './common';
+import { loginUserFail, loginUserSuccess } from './common';
  
- const { axiosReq } = require('../../my_mods');
+const { axiosReq } = require('../../my_mods');
 
 export const emailChanged = (text) => {
 	return {
