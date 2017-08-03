@@ -6,8 +6,10 @@ import { Actions } from 'react-native-router-flux'
 import { connect } from 'react-redux';
 import { getSpotDetails } from './actions/SpotActions';
 import { saveLatLon } from './actions/CreateSpotActions';
+import { mapStyle, BATMAN, night, pastel, retro, silverFox } from './assets/mapStyles'
 const { axiosReq } = require('../my_mods');
-const mapStyle = require('./assets/mapStyles/mapStyle');
+
+
 
 
 
@@ -79,6 +81,15 @@ class Map extends Component {
 	}
 
 	render() {
+		console.log(this.props.styleIndex)
+		const mapstyles = [
+			mapStyle,
+			BATMAN,
+			night,
+			pastel,
+			retro,
+			silverFox
+		]
 		var spotBox = [];
 		this.state.spots.map((spot,index)=>{
 			var id = spot.locationID.toString()
@@ -96,12 +107,13 @@ class Map extends Component {
 					/>
 			)
 		})
+
 		return(
 			<View style={styles.container}>
 
 				<MapView 
 					provider={PROVIDER_GOOGLE}
-					customMapStyle={mapStyle}
+					customMapStyle={mapstyles[this.props.styleIndex]}
 					showsUserLocation={true}
 					initialRegion={this.state.initLocation}
 					region={this.state.initLocation}
@@ -171,7 +183,13 @@ const styles = {
 	} 
 }
 
-export default connect(null,{ getSpotDetails, saveLatLon })(Map);
+const mapStateToProps = ({ settings }) => {
+	return{
+		styleIndex: settings.styleIndex
+	}
+}
+
+export default connect(mapStateToProps,{ getSpotDetails, saveLatLon })(Map);
 
 
 

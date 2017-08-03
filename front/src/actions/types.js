@@ -20,4 +20,5 @@ export const CREATE_SPOT_SUCCESS = 'create_spot_success';
 export const GET_USER_DETAILS = 'get_user_details';
 export const GET_USER_DETAILS_FAIL = 'get_user_details_fail';
 export const GET_USER_DETAILS_SUCCESS = 'get_user_details_success';
+export const SET_MAP_STYLE = 'set_map_style';
 
