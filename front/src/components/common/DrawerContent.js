@@ -45,7 +45,7 @@ class DrawerContents extends Component {
 				<MenuItem
 					icon={'settings'}
 					title='Settings'
-					onPress={() => {console.log('pressed')}}
+					onPress={() => Actions.mapSettings()}
 				/>
 
 				<MenuItem

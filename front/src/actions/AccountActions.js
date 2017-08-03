@@ -17,7 +17,16 @@ export const getAccountDetails = (token) => {
 
 		axiosReq('post',url,data)
 			.then(user => {
-				console.log(user)
+				const { userName, email, phone } = user.data
+				console.log(userName)
+				dispatch({
+					type: GET_USER_DETAILS_SUCCESS,
+					payload: { userName, email, phone }
+				})
+			}).catch(() => {
+				dispatch({
+					type: GET_USER_DETAILS_FAIL
+				})
 			})
 	}
 }

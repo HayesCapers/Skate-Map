@@ -12,7 +12,7 @@ class UserProfile extends Component {
 	}
 
 	render() {
-		const { header, headerImg, avatarContainer, avatarImg } = styles
+		const { header, headerImg, nameContainer, nameText, skillRatingText, avatarContainer, avatarImg } = styles
 
 		return(
 			<View>
@@ -22,6 +22,11 @@ class UserProfile extends Component {
 						style={headerImg}
 						source={require('../assets/images/atlSkyline.png')} 
 					/>
+				</View>
+
+				<View style={nameContainer}>
+					<Text style={nameText}>{this.props.userName}</Text>
+					<Text style={skillRatingText}>Skill Rating: 0</Text>
 				</View>
 
 				<View style={avatarContainer}>
@@ -49,6 +54,22 @@ const styles = {
 		position: 'relative',
 		top: 0
 	},
+	nameContainer: {
+		marginLeft: 135,
+		position: 'relative',
+		top: -22,
+		backgroundColor: 'rgba(0,0,0,0)'
+	},
+	nameText: {
+		fontFamily: 'American Captain',
+		fontSize: 25,
+		color: '#FFF'
+	},
+	skillRatingText: {
+		fontFamily: 'American Captain',
+		fontSize: 20,
+		color: '#111'
+	},
 	avatarContainer: {
 		position: 'absolute',
 		top: 160,
@@ -62,9 +83,12 @@ const styles = {
 	}
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = ({ auth, account }) => {
 	return {
-		token: state.auth.user.token,
+		token: auth.user.token,
+		userName: account.userName,
+		email: account.email,
+		phone: account.phone
 	}
 }
 
