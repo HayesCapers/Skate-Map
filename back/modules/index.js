@@ -8,5 +8,6 @@ module.exports = {
 	router: require('./router'),
 	query: require('./query'),
 	haversineForm: require('./haversine'),
-	distanceCheck: require('./distanceCheck')
+	distanceCheck: require('./distanceCheck'),
+	updateAccount: require('./updateAccount')
 };

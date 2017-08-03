@@ -1,5 +1,5 @@
 // import all the things
-const { router, query, dB, randToken, bcrypt, distanceCheck } = require('../modules');
+const { router, query, dB, randToken, bcrypt, distanceCheck, updateAccount } = require('../modules');
 
 
 // useless but i'll keep it anyway.
@@ -117,33 +117,64 @@ router.post('/updateAccount', (req,res)=>{
 				});
 			}else{
 				// update account with new password
-				var checkHash = bcrypt.compareSync(acct.currPass,deets[0].password);				
-				if((checkHash === true) && (acct.newPass !== '')){
-					var hash = bcrypt.hashSync(acct.newPass);
-					dB(query.updateWithPass,[acct.userName,acct.email,hash,acct.phone]).then((upAcRes)=>{
-						res.json({
-							msg: 'accountAccess',
-							userName: acct.userName,
-							email: acct.email,
-							phone: acct.phone,
-							token: token
-						});
-					});
-				}else if((checkHash === true) && (acct.newPass === '')){
-					//update account without changing passwords
-					dB(query.updateNoPass,[acct.userName,acct.email,acct.phone,token]).then((upAcRes)=>{
-						res.json({
-							msg: 'accountAccess',
-							userName: acct.userName,
-							email: acct.email,
-							phone: acct.phone,
-							token: token
-						});
-					});
-				}else if(checkHash === false){
-					//you dun messed up your password
+				// var checkHash = bcrypt.compareSync(acct.currPass,deets[0].password);				
+				// if((checkHash === true) && (acct.newPass !== '')){
+				// 	var hash = bcrypt.hashSync(acct.newPass);
+				// 	dB(query.updateWithPass,[acct.userName,acct.email,hash,acct.phone]).then((upAcRes)=>{
+				// 		res.json({
+				// 			msg: 'accountAccess',
+				// 			userName: acct.userName,
+				// 			email: acct.email,
+				// 			phone: acct.phone,
+				// 			token: token
+				// 		});
+				// 	});
+				// }else if((checkHash === true) && (acct.newPass === '')){
+				// 	//update account without changing passwords
+				// 	dB(query.updateNoPass,[acct.userName,acct.email,acct.phone,token]).then((upAcRes)=>{
+				// 		res.json({
+				// 			msg: 'accountAccess',
+				// 			userName: acct.userName,
+				// 			email: acct.email,
+				// 			phone: acct.phone,
+				// 			token: token
+				// 		});
+				// 	});
+				// }else if(checkHash === false){
+				// 	//you dun messed up your password
+				// 	res.json({
+				// 		msg: 'invalidPass'
+				// 	});
+				// }
+
+				var info = updateAccount(deets[0],acct);
+
+				if((info.length !== 7) || (info.length !== 8)){
+					//if the updateAccount doesn't work for some reason
 					res.json({
-						msg: 'invalidPass'
+						msg: 'somethingIsWrong'
+					});
+				}else if(info.length === 7){
+					//if the password is the same and not updated
+					dB(query.updateNoPass,info).then(()=>{
+						res.json({
+							msg: 'accountAccess',
+							userName: info[0],
+							email: info[1],
+							phoneNumber: info[2],
+							token: token
+						});
+					});
+				}else if(info.length === 8){
+					//if the password is updated somehow
+					dB(query.updateWithPass,info).then(()=>{
+						res.json({
+							msg: 'accountAccess',
+							userName: info[0],
+							email: info[1],
+							phoneNumber: info[2],
+							token: token
+						});					
 					});
 				}
 			}
@@ -396,11 +427,131 @@ router.post('/addFav',(req,res)=>{
 	});
 });
 
+//adding friend to friends list
+router.post('/addFriend', (req,res)=>{
+	var friendName = req.body.friendName;
+	var token = req.body.token;
+	// and another one.
+	dB(query.account,[token]).then((deets)=>{
+		if(deets.length > 0){
+			var date = Date.now();
+			if((deets[0].tokenEXP * 1000) <= date){
+				res.json({
+					msg: 'loginAgain'
+				});
+			}else{
+				var userID = deets[0].userID;
+				dB(query.userCheck,[friendName]).then((friend)=>{
+					if(friend.length === 0){
+						res.json({
+							msg: 'shitBroke'
+						})
+					}else{
+						var friendID = friend[0].userID;
+						dB(query.friends,[userID]).then((list)=>{
+							if(list.length === 0){
+								dB(query.addFriend,[userID,friendID]).then(()=>{
+									res.json({
+										msg: 'friendAdded'
+									})
+								})
+							}else if(list.length === 1){
+								if(list.friendID1 === null){
+									dB(query.addFriend1,[friendID,userID]).then(()=>{
+										res.json({
+											msg:'friendAdded'
+										})
+									})
+								}else if(list.friendID2 === null){
+									dB(query.addFriend2,[friendID,userID]).then(()=>{
+										res.json({
+											msg:'friendAdded'
+										})
+									})
+								}else if(list.friendID3 === null){
+									dB(query.addFriend3,[friendID,userID]).then(()=>{
+										res.json({
+											msg:'friendAdded'
+										})
+									})
+								}else if(list.friendID4 === null){
+									dB(query.addFriend4,[friendID,userID]).then(()=>{
+										res.json({
+											msg:'friendAdded'
+										})
+									})
+								}else if(list.friendID5 === null){
+									dB(query.addFriend5,[friendID,userID]).then(()=>{
+										res.json({
+											msg:'friendAdded'
+										})
+									})
+								}else{
+									res.json({
+										msg: 'deleteAFriend'
+									})
+								}
+							}
+						})
+					}
+				})
+			}
+		}else{
+			//don't do this to me.
+			res.json({
+				msg: 'register'
+			});
+		}
+	});	
+})
+
+//friends list
+router.post('/friends',(req,res)=>{
+	var token = req.body.token;
+	dB(query.account,[token]).then((results)=>{
+		var userID = results[0].userID;
+		dB(query.friends,[userID]).then((friends)=>{
+			if(friends.length === 0){
+				res.json({
+					msg: 'youreALonerHarry',
+				})
+			}else{
+				var array = [
+					{
+						id: friends[0].friendID1,
+						name: friends[0].friend1
+					},
+					{
+						id: friends[0].friendID2,
+						name: friends[0].friend2
+					},
+					{
+						id: friends[0].friendID3,
+						name: friends[0].friend3
+					},					
+					{
+						id: friends[0].friendID4,
+						name: friends[0].friend4
+					},
+					{
+						id: friends[0].friendID5,
+						name: friends[0].friend5
+					}					
+				]
+				res.json({
+					msg: 'lookAtYouPopularKid'
+					friends: array
+				})
+			}
+		})
+	})
+})
+
 //generic user profile pages
 router.post('/profile',(req,res)=>{
 	var userName = req.body.userName;
 	//all the deets.
-	dB(userCheck,[userName]).then((deets)=>{
+	dB(query.profile,[userName]).then((deets)=>{
 		if(deets.length > 0){
 			res.json({
 				deets: deets
@@ -408,6 +559,84 @@ router.post('/profile',(req,res)=>{
 		}else{
 			res.json({
 				msg: 'shitBroke'
+			});
+		}
+	});
+});
+
+router.post('/skillReview',(req,res) => {
+	var userName = req.body.userName;
+	dB(query.userCheck, [userName]).then((results)=>{
+		if(results.length ===0){
+			res.json({
+				msg: 'shitBroke'
+			})
+		}else{
+			dB(query.skillReviews,[results[0].userID]).then((deets)=>{
+				if(deets.length > 0){
+					res.json({
+						skillReviews: deets
+					})
+				}else{
+					res.json({
+						skillReviews: []
+					})
+				}
+			})
+		}
+	})
+})
+
+//add skill reviews for other users
+router.post('/addSkillReview', (req,res)=>{
+	var info = req.body;
+	var token = req.body.token;
+	//yay. obligations.
+	dB(query.account,[token]).then((deets)=>{
+		if(deets.length > 0){
+			var date = Date.now();
+			if((deets[0].tokenEXP * 1000) <= date){
+				res.json({
+					msg: 'loginAgain'
+				});
+			}else{	
+				dB(query.userCheck,[info.reviewerName]).then((user)=>{
+					//hope this never gets seen.
+					if(user.length === 0){
+						res.json({
+							msg: 'shitBroke'
+						});
+					}else{
+						var reviewerID = user[0].userID;
+						dB(query.userCheck,[info.userName]),then((results)=>{
+							if(results.length === 0){
+								res.json({
+									msg: 'shitBroke'
+								})
+							}else{
+								var userID = results[0].userID;
+								var revArray = [
+									userID,
+									reviewerID,
+									info.skillRating,
+									info.skillReview
+								]
+								dB(query.addSkillReview,revArray).then(()=>{
+									// boom. added.
+									res.json({
+										msg: 'skillReviewAdded'
+									});
+								});	
+							}
+						})
+
+					}
+				});
+			}
+		}else{
+			//oh come on.
+			res.json({
+				msg: 'register'
 			});
 		}
 	});
