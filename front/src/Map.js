@@ -6,7 +6,7 @@ import { Actions } from 'react-native-router-flux'
 import { connect } from 'react-redux';
 import { getSpotDetails } from './actions/SpotActions';
 import { saveLatLon } from './actions/CreateSpotActions';
-import { mapStyle, BATMAN, night, pastel, retro, silverFox } from './assets/mapStyles'
+import { mapStyle, BATMAN, night, pastel, retro, silverFox, carla, sean } from './assets/mapStyles'
 const { axiosReq } = require('../my_mods');
 
 
@@ -84,6 +84,8 @@ class Map extends Component {
 		console.log(this.props.styleIndex)
 		const mapstyles = [
 			mapStyle,
+			carla,
+			sean,
 			BATMAN,
 			night,
 			pastel,

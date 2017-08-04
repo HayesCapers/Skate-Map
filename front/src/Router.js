@@ -7,7 +7,7 @@ import Spot from './components/Spot';
 import CreateSpot from './components/CreateSpot';
 import Camera from './components/Camera';
 import UserProfile from './components/UserProfile';
-import { MapSettings } from './components/MapSettings';
+import MapSettings from './components/MapSettings';
 import { Menu } from './components/common';
 
 
