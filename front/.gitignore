@@ -5,6 +5,9 @@
 # Config Files
 /config
 
+#Pods
+/ios/Pods
+
 # Xcode
 #
 build/

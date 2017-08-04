@@ -24,7 +24,7 @@ class LoginForm extends Component {
 
 	render(){
 		return(
-			<View>
+			<View style={{ marginTop: 70 }}>
 
 				<Logo />
 

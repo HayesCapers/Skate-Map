@@ -18,9 +18,9 @@ class RegisterForm extends Component {
 	render() {
 		return(
 
-			<View>
+			<View style={{ marginTop: 70 }}>
 
-				<BackButton />
+				<BackButton top={-30} />
 
 				<Logo />
 

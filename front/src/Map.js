@@ -1,12 +1,16 @@
 import React, { Component } from 'react';
-import { View, StyleSheet } from 'react-native';
-import { Button, CardSection } from './components/common';
-import MapView from 'react-native-maps';
+import { View, Text } from 'react-native';
+import { Button, CardSection, Hamburger } from './components/common';
+import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 import { Actions } from 'react-native-router-flux'
 import { connect } from 'react-redux';
 import { getSpotDetails } from './actions/SpotActions';
 import { saveLatLon } from './actions/CreateSpotActions';
+import { mapStyle, BATMAN, night, pastel, retro, silverFox, carla, sean } from './assets/mapStyles'
 const { axiosReq } = require('../my_mods');
+
+
+
 
 
 class Map extends Component {
@@ -77,6 +81,17 @@ class Map extends Component {
 	}
 
 	render() {
+		console.log(this.props.styleIndex)
+		const mapstyles = [
+			mapStyle,
+			carla,
+			sean,
+			BATMAN,
+			night,
+			pastel,
+			retro,
+			silverFox
+		]
 		var spotBox = [];
 		this.state.spots.map((spot,index)=>{
 			var id = spot.locationID.toString()
@@ -86,71 +101,97 @@ class Map extends Component {
 						latitude: spot.latitude,
 						longitude: spot.longitude
 					}}
+					image={require('./assets/images/marker-3.png')}
 					title={spot.locationName}
-					description={
-						`rating: ${spot.rating} security level: ${spot.secRating}`
-					}
 					identifier={id}
 					key={index}
 					onPress={this.showDetails.bind(this)}
 					/>
 			)
 		})
+
 		return(
 			<View style={styles.container}>
+
 				<MapView 
+					provider={PROVIDER_GOOGLE}
+					customMapStyle={mapstyles[this.props.styleIndex]}
 					showsUserLocation={true}
 					initialRegion={this.state.initLocation}
 					region={this.state.initLocation}
 					style={styles.map}
 					rotateEnabled={false}
 				>
-                    {spotBox}
+					{spotBox}
 				</MapView>
+
 				<View style={styles.button}>
-					<CardSection>
+					<CardSection 
+						bgColor={'#fff'}
+						opacity={.8}
+					>
 						<Button
-						onPress={this.saveCurrentLocation.bind(this)}
+							onPress={this.saveCurrentLocation.bind(this)}
+							backgroundColor={'#fff'}
+							borderColor={'#111'}
+							fontSize={40}
+							opacity={.8}
 						>
 							+
 						</Button>
 					</CardSection>
 				</View>
+
 			</View>
 		)
 	}
 }
 
+Map.propTypes = {
+	provider: MapView.ProviderPropType,
+};
+
 
 const styles = {
 	container: {
 		position: 'absolute',
-		top: 0,
+		top: 20,
 		left: 0,
 		right: 0,
 		bottom: 0,
 		flex: 1,
-    	justifyContent: 'center',
-    	alignItems: 'center',
-	  },
+		justifyContent: 'center',
+		alignItems: 'center',
+		},
 	map: {
 		position: 'absolute',
 		top: 0,
 		left: 0,
 		right: 0,
 		bottom: 0,
-	  },
+		},
 	button: {
 		position: 'absolute',
-		bottom: 10,
+		bottom: 20,
 		right: 10,
 		alignItems: 'flex-end',
-		width: 75,
-		height: 75
+		width: 100,
+		height: 75,
+	},
+	ham: {
+		position: 'absolute',
+		top: 0,
+		left: 0
 	} 
 }
 
-export default connect(null,{ getSpotDetails, saveLatLon })(Map);
+const mapStateToProps = ({ settings }) => {
+	return{
+		styleIndex: settings.styleIndex
+	}
+}
+
+export default connect(mapStateToProps,{ getSpotDetails, saveLatLon })(Map);
 
 
 

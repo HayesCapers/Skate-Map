@@ -1,15 +1,24 @@
 import React, { Component } from 'react';
-import { Image, Text } from 'react-native';
+import { Image, Text, View, Dimensions, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
-import { Button, Card, CardSection } from './common';
+import { Button, Card, CardSection, BackButton } from './common';
 
 class Spot extends Component {
 
 	render() {
-		const { averageRating, totalRatings, city, state, description } = this.props.spot
+
+		const { height, width } = Dimensions.get('window')
+		console.log(this.props.spot)
+		const { averageRating, totalRatings, city, state, description, locationName } = this.props.spot
 
 		return(
-			<Card>
+			<ScrollView>
+
+				<View style={{ ...styles.header, ...{ width } }}>
+					<Text style={styles.headerText}>{locationName}</Text>
+				</View>
+
+				<BackButton />
 
 				<CardSection>
 					<Image 
@@ -19,15 +28,28 @@ class Spot extends Component {
 				</CardSection>
 
 				<CardSection>
-					<Text>Location: {city}, {state}{"\n"}rating: {averageRating} ({totalRatings})</Text>
+					<Text style={{ color: '#fff' }}>Location: {city}, {state}{"\n"}rating: {averageRating} ({totalRatings})</Text>
 				</CardSection>
 
 				<CardSection>
-					<Text> {description} </Text>
+					<Text style={{ color: '#fff' }}> {description} </Text>
 				</CardSection>
 
-			</Card>
+			</ScrollView>	
 		)
+	}
+}
+
+const styles = {
+	header: {
+		marginTop: 50,
+		alignItems: 'center',
+		justifyContent: 'center',
+		height: 60,
+	},
+	headerText: {
+		fontFamily: 'American Captain',
+		fontSize: 60
 	}
 }
 

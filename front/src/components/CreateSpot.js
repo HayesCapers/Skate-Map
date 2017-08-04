@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
+import { View } from 'react-native';
 import { inputUpdate, submitNewSpot } from '../actions/CreateSpotActions';
-import { Card, CardSection, Input, Button } from './common';
+import { Card, CardSection, Input, Button, BackButton } from './common';
+
 
 
 class CreateSpot extends Component {
@@ -22,36 +24,31 @@ class CreateSpot extends Component {
 		const { title, city, state, description, inputUpdate } = this.props
 
 		return(
-			<Card>
+			<View style={{ marginTop: 100 }}>
 
-				<CardSection>
+				<BackButton />
+
 					<Input
 						placeholder='title'
 						label='title'
 						onChangeText={value => inputUpdate({ prop: 'title', value })}
 						value={title}
 					/>
-				</CardSection>
 
-				<CardSection>
 					<Input
 						placeholder='Atlanta'
 						label='city'
 						onChangeText={value => inputUpdate({ prop: 'city', value })}
 						value={city}
 					/>
-				</CardSection>
 
-				<CardSection>
 					<Input
 						placeholder='GA'
 						label='state'
 						onChangeText={value => inputUpdate({ prop: 'state', value })}
 						value={state}
 					/>
-				</CardSection>
 
-				<CardSection>
 					<Input
 						multiline
 						numberOfLines={5}
@@ -59,8 +56,9 @@ class CreateSpot extends Component {
 						label='description'
 						onChangeText={value => inputUpdate({ prop: 'description', value })}
 						value={description}
+						boxHeight={200}
+						containerHeight={215}
 					/>
-				</CardSection>
 
 				<CardSection>
 					<Button
@@ -78,7 +76,7 @@ class CreateSpot extends Component {
 					</Button>
 				</CardSection>
 
-			</Card>
+			</View>	
 		)
 	}
 }

@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import { TouchableOpacity, Image } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 
-const BackButton = (props) => {
+const BackButton = ({ top = -50 }) => {
 	return(
 		<TouchableOpacity onPress={() => Actions.pop()}>
 			<Image
-				style={styles.button}
+				style={{ ...styles.button, ...{ top } }}
 				source={require('../../assets/images/back-icon.png')}
 			/>
 		</TouchableOpacity>
@@ -16,11 +16,10 @@ const BackButton = (props) => {
 const styles = {
 	button: {
 		position: 'absolute',
-		top: -35,
 		left: 20,
 		height: 25,
 		width: 25,
-		alignSelf: 'flex-start'
+		alignSelf: 'flex-start',
 	}
 }
 
