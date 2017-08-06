@@ -455,32 +455,32 @@ router.post('/addFriend', (req,res)=>{
 										msg: 'friendAdded'
 									})
 								})
-							}else if(list.length === 1){
-								if(list.friendID1 === null){
+							}else if(list.length > 1){
+								if(list[0].friendID1 === null){
 									dB(query.addFriend1,[friendID,userID]).then(()=>{
 										res.json({
 											msg:'friendAdded'
 										})
 									})
-								}else if(list.friendID2 === null){
+								}else if(list[0].friendID2 === null){
 									dB(query.addFriend2,[friendID,userID]).then(()=>{
 										res.json({
 											msg:'friendAdded'
 										})
 									})
-								}else if(list.friendID3 === null){
+								}else if(list[0].friendID3 === null){
 									dB(query.addFriend3,[friendID,userID]).then(()=>{
 										res.json({
 											msg:'friendAdded'
 										})
 									})
-								}else if(list.friendID4 === null){
+								}else if(list[0].friendID4 === null){
 									dB(query.addFriend4,[friendID,userID]).then(()=>{
 										res.json({
 											msg:'friendAdded'
 										})
 									})
-								}else if(list.friendID5 === null){
+								}else if(list[0].friendID5 === null){
 									dB(query.addFriend5,[friendID,userID]).then(()=>{
 										res.json({
 											msg:'friendAdded'
@@ -489,6 +489,81 @@ router.post('/addFriend', (req,res)=>{
 								}else{
 									res.json({
 										msg: 'deleteAFriend'
+									})
+								}
+							}
+						})
+					}
+				})
+			}
+		}else{
+			//don't do this to me.
+			res.json({
+				msg: 'register'
+			});
+		}
+	});	
+})
+
+//remove a friend
+router.post('/removeFriends',(req,res)=>{
+	var friendName = req.body.friendName;
+	var token = req.body.token;
+	dB(query.account,[token]).then((deets)=>{
+		if(deets.length > 0){
+			var date = Date.now();
+			if((deets[0].tokenEXP * 1000) <= date){
+				res.json({
+					msg: 'loginAgain'
+				});
+			}else{
+				var userID = deets[0].userID;
+				dB(query.userCheck,[friendName]).then((friend)=>{
+					if(friend.length === 0){
+						res.json({
+							msg: 'shitBroke'
+						})
+					}else{
+						var friendID = friend[0].userID;
+						dB(query.friends,[userID]).then((list)=>{
+							if(list.length === 0){
+								res.json({
+									msg: 'noFriends'
+								})
+							}else if(list.length > 1){
+								if(list[0].friendID1 === friendID){
+									dB(query.removeFriend1,[friendID,userID]).then(()=>{
+										res.json({
+											msg:'friendRemoved'
+										})
+									})
+								}else if(list[0].friendID2 === friendID){
+									dB(query.removeFriend2,[friendID,userID]).then(()=>{
+										res.json({
+											msg:'friendRemoved'
+										})
+									})
+								}else if(list[0].friendID3 === friendID){
+									dB(query.removeFriend3,[friendID,userID]).then(()=>{
+										res.json({
+											msg:'friendRemoved'
+										})
+									})
+								}else if(list[0].friendID4 === friendID){
+									dB(query.removeFriend4,[friendID,userID]).then(()=>{
+										res.json({
+											msg:'friendRemoved'
+										})
+									})
+								}else if(list[0].friendID5 === friendID){
+									dB(query.removeFriend5,[friendID,userID]).then(()=>{
+										res.json({
+											msg:'friendRemoved'
+										})
+									})
+								}else{
+									res.json({
+										msg: 'justInCase'
 									})
 								}
 							}
@@ -564,6 +639,7 @@ router.post('/profile',(req,res)=>{
 	});
 });
 
+//skill reviews page for a user
 router.post('/skillReview',(req,res) => {
 	var userName = req.body.userName;
 	dB(query.userCheck, [userName]).then((results)=>{
