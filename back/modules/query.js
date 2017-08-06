@@ -53,14 +53,16 @@ var query = {
 	addFriend: 'insert into __friends (userID,friendID1) values (?,?)',
 	//update your friends list
 	addFriend1: 'update __friends set friendID1 = ? where userID = ?',
-	//update your friends list
 	addFriend2: 'update __friends set friendID2 = ? where userID = ?',
-	//update your friends list
 	addFriend3: 'update __friends set friendID3 = ? where userID = ?',
-	//update your friends list
 	addFriend4: 'update __friends set friendID4 = ? where userID = ?',
-	//update your friends list
-	addFriend5: 'update __friends set friendID5 = ? where userID = ?'
+	addFriend5: 'update __friends set friendID5 = ? where userID = ?',
+	//removing friend queries
+	removeFriend1: 'update __friends set friendID1 = null where userID = ?',
+	removeFriend2: 'update __friends set friendID2 = null where userID = ?',
+	removeFriend3: 'update __friends set friendID3 = null where userID = ?',
+	removeFriend4: 'update __friends set friendID4 = null where userID = ?',
+	removeFriend5: 'update __friends set friendID5 = null where userID = ?'	
 }
 
 module.exports = query;
