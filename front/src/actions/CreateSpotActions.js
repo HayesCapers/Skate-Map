@@ -44,6 +44,7 @@ export const submitNewSpot = (spotObj) => {
 					console.log(res)
 					s3Upload(spotObj.image, res.data.spotID)
 						.then(response => {
+							console.log(response)
 							if (response.status !== 201) {
 								createSpotFail(dispatch)
 							}

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Image, Text, View, Dimensions, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
+import { Actions } from 'react-native-router-flux'
 import { Button, Card, CardSection, BackButton } from './common';
 
 class Spot extends Component {
@@ -8,10 +9,10 @@ class Spot extends Component {
 	render() {
 
 		const { height, width } = Dimensions.get('window')
-		console.log(this.props.spot)
 		const { averageRating, totalRatings, city, state, description, locationName } = this.props.spot
-
+		console.log(this.props.id)
 		return(
+
 			<ScrollView>
 
 				<View style={{ ...styles.header, ...{ width } }}>
@@ -23,8 +24,14 @@ class Spot extends Component {
 				<CardSection>
 					<Image 
 						style={{ height: 300, width: 300 }}
-						source={{ uri : 'https://s3.amazonaws.com/s3-skatespot/images/phoneham.jpg' }} 
+						source={{ uri : `https://s3.amazonaws.com/s3-skatespot/images/${this.props.id}.jpg` }} 
 					/>
+				</CardSection>
+
+				<CardSection>
+					<Button onPress={() => Actions.reviews()}>
+						Reviews
+					</Button>
 				</CardSection>
 
 				<CardSection>

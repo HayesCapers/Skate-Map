@@ -8,6 +8,7 @@ import CreateSpot from './components/CreateSpot';
 import Camera from './components/Camera';
 import UserProfile from './components/UserProfile';
 import MapSettings from './components/MapSettings';
+import Reviews from './components/Review';
 import { Menu } from './components/common';
 
 
@@ -26,6 +27,7 @@ class AppRouter extends Component {
 					<Scene key='user' component={UserProfile} hideNavBar />
 					<Scene key='mapSettings' component={MapSettings} hideNavBar />
 					<Scene key='spot' component={Spot} title='spot' hideNavBar />
+					<Scene key='reviews' component={Reviews} hideNavBar />
 					<Scene key='spotForm' component={CreateSpot} title='Create New Spot' hideNavBar />
 					<Scene key='camera' component={Camera} title='camera' hideNavBar />
 				</Scene>

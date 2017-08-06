@@ -10,7 +10,6 @@ const { axiosReq } = require('../../my_mods');
 
 export const getSpotDetails = (locationID) => {
 	return (dispatch) => {
-		console.log('actions running')
 		dispatch({ 
 			type: GET_SPOT,
 			payload: locationID 
@@ -21,7 +20,6 @@ export const getSpotDetails = (locationID) => {
 
 		axiosReq('post',url,data)
 			.then(ham => {
-				console.log(ham.data.deets[0])
 				getDetailSuccess(dispatch,ham)
 			})
 			.catch(() => {

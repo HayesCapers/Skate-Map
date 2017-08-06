@@ -13,8 +13,10 @@ var query = {
 	regUserCheck: 'SELECT * FROM __users WHERE userName = ? OR email = ?',
 	//easy account check by token
 	account: 'SELECT * FROM __users WHERE token = ?',
+	// update all the users info
+	updateAccountQuery: 'UPDATE __users SET firstName = ?, lastName = ?, deets = ?, email = ?, userName = ?, phoneNumber = ? WHERE token = ?',
 	//account update if they aren't adding a new password
-	updateNoPass: 'UPDATE __users SET userName = ?, email = ?, phoneNumber = ?, firstName = ?, lastName = ?, bio = ? WHERE token  = ?',
+	updateNoPass: 'UPDATE __users SET userName = ?, email = ?, phoneNumber = ?, firstName = ?, lastName = ?, deets = ? WHERE token  = ?',
 	//account update if they are updating to a new password
 	updateWithPass: 'UPDATE __users SET userName = ?, email = ?, password = ?, phoneNumber = ?, firstName = ?, lastName = ?, bio = ? WHERE token  = ?',
 	//checking to see if they have a favorite for that location in the system

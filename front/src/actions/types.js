@@ -17,8 +17,12 @@ export const SUBMIT_NEW_SPOT = 'submit_new_spot';
 export const CREATE_NEW_SPOT = 'create_new_spot';
 export const CREATE_SPOT_FAIL = 'create_spot_fail';
 export const CREATE_SPOT_SUCCESS = 'create_spot_success';
+export const ACCOUNT_INPUT_UPDATE = 'account_input_update';
 export const GET_USER_DETAILS = 'get_user_details';
 export const GET_USER_DETAILS_FAIL = 'get_user_details_fail';
 export const GET_USER_DETAILS_SUCCESS = 'get_user_details_success';
+export const UPDATE_ACCOUNT = 'update_account';
+export const UPDATE_ACCOUNT_FAIL = 'update_account_fail';
+export const UPDATE_ACCOUNT_SUCCESS = 'update_account_success';
 export const SET_MAP_STYLE = 'set_map_style';
 

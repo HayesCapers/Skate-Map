@@ -76,6 +76,7 @@ router.post('/account', (req,res)=>{
 	var acct = req.body;
 	var token = req.body.token;
 	dB(query.account,[token]).then((deets)=>{
+		console.log(deets)
 		if(deets.length > 0){
 			var date = Date.now();
 			// checking to see if your token has expired
@@ -91,7 +92,10 @@ router.post('/account', (req,res)=>{
 					userName: deets[0].userName,
 					email: deets[0].email,
 					phone: deets[0].phoneNumber,
-					token: token
+					token: token,
+					firstName: deets[0].firstName,
+					lastName: deets[0].lastName,
+					bio: deets[0].deets
 				});
 			}
 		}else{
@@ -105,7 +109,14 @@ router.post('/account', (req,res)=>{
 
 //update account information route
 router.post('/updateAccount', (req,res)=>{
+	console.log(req.body)
 	var acct = req.body;
+	var firstName = req.body.firstName
+	var lastName = req.body.lastName
+	var bio = req.body.bio
+	var email = req.body.email
+	var userName = req.body.userName
+	var phone = req.body.phone
 	var token = req.body.token;
 	//obligatory tokenEXP check
 	dB(query.account,[token]).then((deets)=>{
@@ -147,36 +158,44 @@ router.post('/updateAccount', (req,res)=>{
 				// 	});
 				// }
 
-				var info = updateAccount(deets[0],acct);
+				// var info = updateAccount(deets[0],acct);
 
-				if((info.length !== 7) || (info.length !== 8)){
-					//if the updateAccount doesn't work for some reason
-					res.json({
-						msg: 'somethingIsWrong'
-					});
-				}else if(info.length === 7){
-					//if the password is the same and not updated
-					dB(query.updateNoPass,info).then(()=>{
+				// if((info.length !== 7) || (info.length !== 8)){
+				// 	//if the updateAccount doesn't work for some reason
+				// 	res.json({
+				// 		msg: 'somethingIsWrong'
+				// 	});
+				// }else if(info.length === 7){
+				// 	//if the password is the same and not updated
+				// 	dB(query.updateNoPass,info).then(()=>{
+				// 		res.json({
+				// 			msg: 'accountAccess',
+				// 			userName: info[0],
+				// 			email: info[1],
+				// 			phoneNumber: info[2],
+				// 			token: token
+				// 		});
+				// 	});
+				// }else if(info.length === 8){
+				// 	//if the password is updated somehow
+				// 	dB(query.updateWithPass,info).then(()=>{
+				// 		res.json({
+				// 			msg: 'accountAccess',
+				// 			userName: info[0],
+				// 			email: info[1],
+				// 			phoneNumber: info[2],
+				// 			token: token
+				// 		});					
+				// 	});
+				// }
+
+				dB(query.updateAccountQuery, [firstName,lastName,bio,email,userName,phone,token])
+					.then((data) => {
 						res.json({
-							msg: 'accountAccess',
-							userName: info[0],
-							email: info[1],
-							phoneNumber: info[2],
-							token: token
-						});
-					});
-				}else if(info.length === 8){
-					//if the password is updated somehow
-					dB(query.updateWithPass,info).then(()=>{
-						res.json({
-							msg: 'accountAccess',
-							userName: info[0],
-							email: info[1],
-							phoneNumber: info[2],
-							token: token
-						});					
-					});
-				}
+							msg: 'Success'
+						})
+					})
+
 			}
 		}else{
 			//your ass needs to register
@@ -204,8 +223,10 @@ router.post('/initMarkers',(req,res)=>{
 
 //gotta get the deets bruh
 router.post('/deets',(req,res)=>{
-	var info = req.body.locationID;
+	console.log(req.body.locationID)
+	var info = parseInt(req.body.locationID);
 	dB(query.detailed,[info]).then((deets)=>{
+		console.log(deets)
 		if(deets.length > 0){
 			//givin ya the deets bruh
 			res.json({
@@ -258,8 +279,9 @@ router.post('/addSpot',(req,res)=>{
 
 //review page
 router.post('/reviews', (req,res)=>{
-	var info = req.body.locationID;
+	var info = parseInt(req.body.locationID);
 	dB(query.reviews,[info]).then((deets)=>{
+		console.log(deets)
 		if(deets.length > 0){
 			//for deets if they exist
 			res.json({
@@ -539,7 +561,7 @@ router.post('/friends',(req,res)=>{
 					}					
 				]
 				res.json({
-					msg: 'lookAtYouPopularKid'
+					msg: 'lookAtYouPopularKid',
 					friends: array
 				})
 			}

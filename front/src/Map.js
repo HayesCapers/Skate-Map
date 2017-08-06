@@ -81,7 +81,7 @@ class Map extends Component {
 	}
 
 	render() {
-		console.log(this.props.styleIndex)
+
 		const mapstyles = [
 			mapStyle,
 			carla,

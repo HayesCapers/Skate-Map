@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, Image, TouchableOpacity, ScrollView } from 'react-native';
-import { Button, CardSection } from './common';
+import { Button, CardSection, BackButton } from './common';
 import { connect } from 'react-redux';
 import { setMapStyle } from '../actions/SettingsActions';
 import { Actions } from 'react-native-router-flux'
@@ -63,34 +63,39 @@ class MapSettings extends Component {
 		})
 
 		return(
-			<ScrollView style={main}>
+			<View>
 
-				{ items }
+				<BackButton top={50}/>
 
-				<CardSection>
-					<Button 
-						onPress={this.onSubmit.bind(this)}
-					>
-						Save
-					</Button>
-				</CardSection>	
+				<ScrollView style={main}>
 
-			</ScrollView>
+					{ items }
+
+					<CardSection>
+						<Button 
+							onPress={this.onSubmit.bind(this)}
+						>
+							Save
+						</Button>
+					</CardSection>	
+
+				</ScrollView>
+
+			</View>
 		)
 	}
 }
 
 const styles = {
 	main:{
-		marginTop: 50,
-		marginBottom: 50
+		marginTop: 100,
 	},
 	container: {
 		display: 'flex',
 		flexDirection: 'row',
 		alignItems: 'center',
-		marginLeft: 15,
-		marginRight: 15,
+		marginLeft: 5,
+		marginRight: 5,
 	},
 	image: {
 		height: 75,

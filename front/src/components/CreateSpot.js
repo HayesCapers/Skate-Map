@@ -88,3 +88,7 @@ const mapStateToProps = ({ newSpot }) => {
 }
 
 export default connect(mapStateToProps,{ inputUpdate, submitNewSpot })(CreateSpot);
+
+
+
+
