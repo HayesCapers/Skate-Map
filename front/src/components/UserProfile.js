@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Image, Text, Dimensions, ScrollView } from 'react-native';
+import { View, Image, Text, Dimensions, ScrollView, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { CardSection, Input, Button } from './common';
 import { connect } from 'react-redux';
 import { getAccountDetails, accountInputUpdate, updateAccount } from '../actions/AccountActions';
@@ -30,77 +30,81 @@ class UserProfile extends Component {
 		const { main, header, headerImg, nameContainer, nameText, skillRatingText, avatarContainer, avatarImg, scroll, button } = styles
 
 		return(
-			<View style={main}>
+			<TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+				<View style={main}>
 
-				<View style={header}>
-					<Image 
-						style={headerImg}
-						source={require('../assets/images/atlSkyline.png')} 
-					/>
+					<View style={header}>
+						<Image 
+							style={headerImg}
+							source={require('../assets/images/atlSkyline.png')} 
+						/>
+					</View>
+
+					<View style={nameContainer}>
+						<Text style={nameText}>{this.props.userName}</Text>
+						<Text style={skillRatingText}>Skill Rating: 0</Text>
+					</View>
+
+					<View style={avatarContainer}>
+						<Image 
+							style={avatarImg}
+							source={require('../assets/images/user-placeholder.png')} 
+						/>
+					</View>
+
+					<ScrollView stlye={scroll}>
+
+
+						<Input 
+							placeholder={'first name'}
+							onChangeText={value => this.props.accountInputUpdate({ prop: 'firstName', value })}
+							value={this.props.firstName}
+						/>
+
+						<Input 
+							placeholder={'last name'}
+							onChangeText={value => this.props.accountInputUpdate({ prop: 'lastName', value })}
+							value={this.props.lastName}
+						/>
+
+						<Input 
+							placeholder={'user name'}
+							onChangeText={value => this.props.accountInputUpdate({ prop: 'userName', value })}
+							value={this.props.userName}
+						/>
+
+						<Input 
+							placeholder={'email'}
+							onChangeText={value => this.props.accountInputUpdate({ prop: 'email', value })}
+							value={this.props.email}
+						/>
+
+						<Input 
+							placeholder={'phone number'}
+							onChangeText={value => this.props.accountInputUpdate({ prop: 'phone', value })}
+							value={this.props.phone}
+						/>
+
+						<Input 
+							multiline
+							numberOfLines={15}
+							placeholder={'bio...'}
+							onChangeText={value => this.props.accountInputUpdate({ prop: 'bio', value })}
+							value={this.props.bio}
+							boxHeight={200}
+							containerHeight={225}
+						/>
+
+						<CardSection style={button}>
+							<Button onPress={this.submitUserInfo.bind(this)}>
+								Save
+							</Button>
+						</CardSection>
+						
+					</ScrollView>
+
 				</View>
-
-				<View style={nameContainer}>
-					<Text style={nameText}>{this.props.userName}</Text>
-					<Text style={skillRatingText}>Skill Rating: 0</Text>
-				</View>
-
-				<View style={avatarContainer}>
-					<Image 
-						style={avatarImg}
-						source={require('../assets/images/user-placeholder.png')} 
-					/>
-				</View>
-
-				<ScrollView stlye={scroll}>
-					<Input 
-						placeholder={'first name'}
-						onChangeText={value => this.props.accountInputUpdate({ prop: 'firstName', value })}
-						value={this.props.firstName}
-					/>
-
-					<Input 
-						placeholder={'last name'}
-						onChangeText={value => this.props.accountInputUpdate({ prop: 'lastName', value })}
-						value={this.props.lastName}
-					/>
-
-					<Input 
-						placeholder={'user name'}
-						onChangeText={value => this.props.accountInputUpdate({ prop: 'userName', value })}
-						value={this.props.userName}
-					/>
-
-					<Input 
-						placeholder={'email'}
-						onChangeText={value => this.props.accountInputUpdate({ prop: 'email', value })}
-						value={this.props.email}
-					/>
-
-					<Input 
-						placeholder={'phone number'}
-						onChangeText={value => this.props.accountInputUpdate({ prop: 'phone', value })}
-						value={this.props.phone}
-					/>
-
-					<Input 
-						multiline
-						numberOfLines={15}
-						placeholder={'bio...'}
-						onChangeText={value => this.props.accountInputUpdate({ prop: 'bio', value })}
-						value={this.props.bio}
-						boxHeight={200}
-						containerHeight={225}
-					/>
-
-					<CardSection style={button}>
-						<Button onPress={this.submitUserInfo.bind(this)}>
-							Save
-						</Button>
-					</CardSection>
-					
-				</ScrollView>
-
-			</View>
+			</TouchableWithoutFeedback>	
 		)
 	}
 }
@@ -157,6 +161,11 @@ const styles = {
 	},
 	button: {
 		marginBottom: 20
+	},
+	error: {
+		fontFamily: 'American Captian',
+		fontSize: 25,
+		color: 'red'
 	}
 }
 
@@ -170,7 +179,8 @@ const mapStateToProps = ({ auth, account }) => {
 		firstName: account.firstName,
 		lastName: account.lastName,
 		city: account.city,
-		state: account.state
+		state: account.state,
+		accountError: account.error
 	}
 }
 

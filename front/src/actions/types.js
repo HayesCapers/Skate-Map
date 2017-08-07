@@ -25,4 +25,13 @@ export const UPDATE_ACCOUNT = 'update_account';
 export const UPDATE_ACCOUNT_FAIL = 'update_account_fail';
 export const UPDATE_ACCOUNT_SUCCESS = 'update_account_success';
 export const SET_MAP_STYLE = 'set_map_style';
+export const UPDATE_STARS = 'update_stars';
+export const REVIEW_INPUT_UPDATE = 'review_input_update';
+export const SEARCH_USER_UPDATE = 'search_user_update';
+export const SEARCH_USERS = 'search_users';
+export const SEARCH_USERS_SUCCESS = 'search_users_success';
+export const SEARCH_USERS_FAIL = 'search_users_fail';
+export const SAVE_FRIEND_ID = 'save_friend_id';
+export const GET_USER_DEETS_SUCCESS = 'get_user_deets_success';
+export const ADD_FRIEND = 'add_friend';
 

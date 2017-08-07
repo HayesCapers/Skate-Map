@@ -9,6 +9,9 @@ import Camera from './components/Camera';
 import UserProfile from './components/UserProfile';
 import MapSettings from './components/MapSettings';
 import Reviews from './components/Review';
+import Friends from './components/Friends';
+import SearchResults from './components/SearchResults';
+import StaticProfile from './components/StaticProfile';
 import { Menu } from './components/common';
 
 
@@ -25,6 +28,9 @@ class AppRouter extends Component {
 				<Scene key='main'>
 					<Scene key='map' component={Menu} title='Map' hideNavBar />
 					<Scene key='user' component={UserProfile} hideNavBar />
+					<Scene key='friends' component={Friends} hideNavBar />
+					<Scene key='searchResults' component={SearchResults} hideNavBar />
+					<Scene key='userProfile' component={StaticProfile} hideNavBar />
 					<Scene key='mapSettings' component={MapSettings} hideNavBar />
 					<Scene key='spot' component={Spot} title='spot' hideNavBar />
 					<Scene key='reviews' component={Reviews} hideNavBar />

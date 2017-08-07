@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View } from 'react-native';
+import { Text, View, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 import { emailChanged, passwordChanged, loginUser } from '../actions/AuthActions';
@@ -24,54 +24,56 @@ class LoginForm extends Component {
 
 	render(){
 		return(
-			<View style={{ marginTop: 70 }}>
+			<TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+				<View style={{ marginTop: 70 }}>
 
-				<Logo />
+					<Logo />
 
-				<View style={{ marginTop: 10 }}>
+					<View style={{ marginTop: 10 }}>
 
-					<Input 
-						placeholder='user'
-						label='Username'
-						onChangeText={this.onUserNameChange.bind(this)}
-						value={this.props.userName}
-					/>
+						<Input 
+							placeholder='user'
+							label='Username'
+							onChangeText={this.onUserNameChange.bind(this)}
+							value={this.props.userName}
+						/>
 
-					<Input 
-						secureTextEntry
-						placeholder='password'
-						label="Password"
-						onChangeText={this.onPasswordChange.bind(this)}
-						value={this.props.password}
-					/>
+						<Input 
+							secureTextEntry
+							placeholder='password'
+							label="Password"
+							onChangeText={this.onPasswordChange.bind(this)}
+							value={this.props.password}
+						/>
 
-				</View>	
+					</View>	
 
-				<Text style={styles.errorTextStyle}>
+					<Text style={styles.errorTextStyle}>
 
-				</Text>
+					</Text>
 
-				<View style={{ marginTop: 10 }}>
+					<View style={{ marginTop: 10 }}>
 
-					<CardSection>
-						<Button
-							onPress={this.onButtonPress.bind(this)}
-						>
-							Log in
-						</Button>
-					</CardSection>
+						<CardSection>
+							<Button
+								onPress={this.onButtonPress.bind(this)}
+							>
+								Log in
+							</Button>
+						</CardSection>
 
-					<CardSection>
-						<Button
-							onPress={Actions.register}
-						>
-							Sign Up
-						</Button>
-					</CardSection>
+						<CardSection>
+							<Button
+								onPress={Actions.register}
+							>
+								Sign Up
+							</Button>
+						</CardSection>
+
+					</View>
 
 				</View>
-
-			</View>
+			</TouchableWithoutFeedback>	
 		)
 	}
 }

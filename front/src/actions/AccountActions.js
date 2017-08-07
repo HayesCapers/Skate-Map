@@ -28,7 +28,6 @@ export const getAccountDetails = (token) => {
 
 		axiosReq('post',url,data)
 			.then(user => {
-				console.log(user)
 				if (user.data.bio === null) {
 					user.data.bio = ''
 				}
@@ -66,8 +65,16 @@ export const updateAccount = (user) => {
 		const url = 'http://localhost:3000/updateAccount';
 
 		axiosReq('post',url,user)
-			.then(res => {
-				console.log(res)
+			.then((res) => {
+				if (res.data.msg !== 'Success') {
+					dispatch({
+						type: UPDATE_ACCOUNT_FAIL,
+					})
+				}
+			}).catch(() => {
+				dispatch({
+					type: UPDATE_ACCOUNT_FAIL
+				})
 			})
 	}
 }

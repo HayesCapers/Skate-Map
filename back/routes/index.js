@@ -17,13 +17,15 @@ router.post('/login',(req,res)=>{
 		if(deets.length > 0){
 			var checkHash = bcrypt.compareSync(password,deets[0].password);
 			var token = randToken.uid(40);
+			var uid = deets[0].userID
 			if(checkHash){
 				// yay you got your password correct and now you get to login
 				dB(query.login,[token,userName]).then((logDeets)=>{
 					res.json({
 						msg: 'Success',
 						userName: userName,
-						token: token
+						token: token,
+						userId: uid
 					});
 				});
 			}else{
@@ -76,7 +78,6 @@ router.post('/account', (req,res)=>{
 	var acct = req.body;
 	var token = req.body.token;
 	dB(query.account,[token]).then((deets)=>{
-		console.log(deets)
 		if(deets.length > 0){
 			var date = Date.now();
 			// checking to see if your token has expired
@@ -109,7 +110,6 @@ router.post('/account', (req,res)=>{
 
 //update account information route
 router.post('/updateAccount', (req,res)=>{
-	console.log(req.body)
 	var acct = req.body;
 	var firstName = req.body.firstName
 	var lastName = req.body.lastName
@@ -214,7 +214,6 @@ router.post('/initMarkers',(req,res)=>{
 		resolve(distanceCheck(info))
 	});
 	check.then((deets)=>{
-		// console.log(deets)
 		res.json({
 			spots: deets
 		});
@@ -223,10 +222,8 @@ router.post('/initMarkers',(req,res)=>{
 
 //gotta get the deets bruh
 router.post('/deets',(req,res)=>{
-	console.log(req.body.locationID)
 	var info = parseInt(req.body.locationID);
 	dB(query.detailed,[info]).then((deets)=>{
-		console.log(deets)
 		if(deets.length > 0){
 			//givin ya the deets bruh
 			res.json({
@@ -258,7 +255,7 @@ router.post('/addSpot',(req,res)=>{
 		console.log(req.body.latitude)
 		//quick (hopefully) dB query to get locationID by lon and lat
 		dB(query.locID,[req.body.latitude,req.body.longitude]).then((results)=>{
-			console.log(results)
+
 			if(results.length === 0){
 				//clearly something is wrong
 				res.json({
@@ -281,7 +278,7 @@ router.post('/addSpot',(req,res)=>{
 router.post('/reviews', (req,res)=>{
 	var info = parseInt(req.body.locationID);
 	dB(query.reviews,[info]).then((deets)=>{
-		console.log(deets)
+
 		if(deets.length > 0){
 			//for deets if they exist
 			res.json({
@@ -407,6 +404,36 @@ router.post('/addSecReview', (req,res)=>{
 	});
 });
 
+router.post('/searchUser', (req,res) => {
+	var userToFind = req.body.userName;
+
+	dB(query.userSearch,[userToFind])
+		.then((results) => {
+			res.json({
+				results,
+				msg: 'Success'
+			})
+		}).catch((error) => console.log(error))
+})
+
+router.post('/userDeets', (req,res) => {
+	var userId = req.body.userId
+
+	dB(query.userDeets,[userId])
+		.then((results) => {
+			if (results.length > 0) {
+				res.json({
+					results,
+					msg: 'Success'
+				})
+			}else{
+				res.json({
+					msg: 'Fail'
+				})
+			}
+		})
+})
+
 // adding to favorites.
 router.post('/addFav',(req,res)=>{
 	var info = req.body;
@@ -451,197 +478,226 @@ router.post('/addFav',(req,res)=>{
 
 //adding friend to friends list
 router.post('/addFriend', (req,res)=>{
-	var friendName = req.body.friendName;
-	var token = req.body.token;
-	// and another one.
-	dB(query.account,[token]).then((deets)=>{
-		if(deets.length > 0){
-			var date = Date.now();
-			if((deets[0].tokenEXP * 1000) <= date){
-				res.json({
-					msg: 'loginAgain'
-				});
-			}else{
-				var userID = deets[0].userID;
-				dB(query.userCheck,[friendName]).then((friend)=>{
-					if(friend.length === 0){
-						res.json({
-							msg: 'shitBroke'
-						})
-					}else{
-						var friendID = friend[0].userID;
-						dB(query.friends,[userID]).then((list)=>{
-							if(list.length === 0){
-								dB(query.addFriend,[userID,friendID]).then(()=>{
-									res.json({
-										msg: 'friendAdded'
-									})
-								})
-							}else if(list.length > 1){
-								if(list[0].friendID1 === null){
-									dB(query.addFriend1,[friendID,userID]).then(()=>{
-										res.json({
-											msg:'friendAdded'
-										})
-									})
-								}else if(list[0].friendID2 === null){
-									dB(query.addFriend2,[friendID,userID]).then(()=>{
-										res.json({
-											msg:'friendAdded'
-										})
-									})
-								}else if(list[0].friendID3 === null){
-									dB(query.addFriend3,[friendID,userID]).then(()=>{
-										res.json({
-											msg:'friendAdded'
-										})
-									})
-								}else if(list[0].friendID4 === null){
-									dB(query.addFriend4,[friendID,userID]).then(()=>{
-										res.json({
-											msg:'friendAdded'
-										})
-									})
-								}else if(list[0].friendID5 === null){
-									dB(query.addFriend5,[friendID,userID]).then(()=>{
-										res.json({
-											msg:'friendAdded'
-										})
-									})
-								}else{
-									res.json({
-										msg: 'deleteAFriend'
-									})
-								}
-							}
-						})
-					}
-				})
-			}
-		}else{
-			//don't do this to me.
+	// var friendName = req.body.friendName;
+	// var token = req.body.token;
+	// // and another one.
+	// dB(query.account,[token]).then((deets)=>{
+	// 	if(deets.length > 0){
+	// 		var date = Date.now();
+	// 		if((deets[0].tokenEXP * 1000) <= date){
+	// 			res.json({
+	// 				msg: 'loginAgain'
+	// 			});
+	// 		}else{
+	// 			var userID = deets[0].userID;
+	// 			dB(query.userCheck,[friendName]).then((friend)=>{
+	// 				if(friend.length === 0){
+	// 					res.json({
+	// 						msg: 'shitBroke'
+	// 					})
+	// 				}else{
+	// 					var friendID = friend[0].userID;
+	// 					dB(query.friends,[userID]).then((list)=>{
+	// 						if(list.length === 0){
+	// 							dB(query.addFriend,[userID,friendID]).then(()=>{
+	// 								res.json({
+	// 									msg: 'friendAdded'
+	// 								})
+	// 							})
+	// 						}else if(list.length > 1){
+	// 							if(list[0].friendID1 === null){
+	// 								dB(query.addFriend1,[friendID,userID]).then(()=>{
+	// 									res.json({
+	// 										msg:'friendAdded'
+	// 									})
+	// 								})
+	// 							}else if(list[0].friendID2 === null){
+	// 								dB(query.addFriend2,[friendID,userID]).then(()=>{
+	// 									res.json({
+	// 										msg:'friendAdded'
+	// 									})
+	// 								})
+	// 							}else if(list[0].friendID3 === null){
+	// 								dB(query.addFriend3,[friendID,userID]).then(()=>{
+	// 									res.json({
+	// 										msg:'friendAdded'
+	// 									})
+	// 								})
+	// 							}else if(list[0].friendID4 === null){
+	// 								dB(query.addFriend4,[friendID,userID]).then(()=>{
+	// 									res.json({
+	// 										msg:'friendAdded'
+	// 									})
+	// 								})
+	// 							}else if(list[0].friendID5 === null){
+	// 								dB(query.addFriend5,[friendID,userID]).then(()=>{
+	// 									res.json({
+	// 										msg:'friendAdded'
+	// 									})
+	// 								})
+	// 							}else{
+	// 								res.json({
+	// 									msg: 'deleteAFriend'
+	// 								})
+	// 							}
+	// 						}
+	// 					})
+	// 				}
+	// 			})
+	// 		}
+	// 	}else{
+	// 		//don't do this to me.
+	// 		res.json({
+	// 			msg: 'register'
+	// 		});
+	// 	}
+	// });
+	
+	var userId = req.body.userId
+	var friendId = req.body.friendId
+	var friendName = req.body.friendName
+
+	dB(query.addFriend,[userId,friendId,friendName])
+		.then((results) => {
 			res.json({
-				msg: 'register'
-			});
-		}
-	});	
+				msg: 'Success'
+			})
+		})
 })
 
 //remove a friend
 router.post('/removeFriends',(req,res)=>{
-	var friendName = req.body.friendName;
-	var token = req.body.token;
-	dB(query.account,[token]).then((deets)=>{
-		if(deets.length > 0){
-			var date = Date.now();
-			if((deets[0].tokenEXP * 1000) <= date){
-				res.json({
-					msg: 'loginAgain'
-				});
-			}else{
-				var userID = deets[0].userID;
-				dB(query.userCheck,[friendName]).then((friend)=>{
-					if(friend.length === 0){
-						res.json({
-							msg: 'shitBroke'
-						})
-					}else{
-						var friendID = friend[0].userID;
-						dB(query.friends,[userID]).then((list)=>{
-							if(list.length === 0){
-								res.json({
-									msg: 'noFriends'
-								})
-							}else if(list.length > 1){
-								if(list[0].friendID1 === friendID){
-									dB(query.removeFriend1,[friendID,userID]).then(()=>{
-										res.json({
-											msg:'friendRemoved'
-										})
-									})
-								}else if(list[0].friendID2 === friendID){
-									dB(query.removeFriend2,[friendID,userID]).then(()=>{
-										res.json({
-											msg:'friendRemoved'
-										})
-									})
-								}else if(list[0].friendID3 === friendID){
-									dB(query.removeFriend3,[friendID,userID]).then(()=>{
-										res.json({
-											msg:'friendRemoved'
-										})
-									})
-								}else if(list[0].friendID4 === friendID){
-									dB(query.removeFriend4,[friendID,userID]).then(()=>{
-										res.json({
-											msg:'friendRemoved'
-										})
-									})
-								}else if(list[0].friendID5 === friendID){
-									dB(query.removeFriend5,[friendID,userID]).then(()=>{
-										res.json({
-											msg:'friendRemoved'
-										})
-									})
-								}else{
-									res.json({
-										msg: 'justInCase'
-									})
-								}
-							}
-						})
-					}
-				})
-			}
-		}else{
-			//don't do this to me.
+	// var friendName = req.body.friendName;
+	// var token = req.body.token;
+	// dB(query.account,[token]).then((deets)=>{
+	// 	if(deets.length > 0){
+	// 		var date = Date.now();
+	// 		if((deets[0].tokenEXP * 1000) <= date){
+	// 			res.json({
+	// 				msg: 'loginAgain'
+	// 			});
+	// 		}else{
+	// 			var userID = deets[0].userID;
+	// 			dB(query.userCheck,[friendName]).then((friend)=>{
+	// 				if(friend.length === 0){
+	// 					res.json({
+	// 						msg: 'shitBroke'
+	// 					})
+	// 				}else{
+	// 					var friendID = friend[0].userID;
+	// 					dB(query.friends,[userID]).then((list)=>{
+	// 						if(list.length === 0){
+	// 							res.json({
+	// 								msg: 'noFriends'
+	// 							})
+	// 						}else if(list.length > 1){
+	// 							if(list[0].friendID1 === friendID){
+	// 								dB(query.removeFriend1,[friendID,userID]).then(()=>{
+	// 									res.json({
+	// 										msg:'friendRemoved'
+	// 									})
+	// 								})
+	// 							}else if(list[0].friendID2 === friendID){
+	// 								dB(query.removeFriend2,[friendID,userID]).then(()=>{
+	// 									res.json({
+	// 										msg:'friendRemoved'
+	// 									})
+	// 								})
+	// 							}else if(list[0].friendID3 === friendID){
+	// 								dB(query.removeFriend3,[friendID,userID]).then(()=>{
+	// 									res.json({
+	// 										msg:'friendRemoved'
+	// 									})
+	// 								})
+	// 							}else if(list[0].friendID4 === friendID){
+	// 								dB(query.removeFriend4,[friendID,userID]).then(()=>{
+	// 									res.json({
+	// 										msg:'friendRemoved'
+	// 									})
+	// 								})
+	// 							}else if(list[0].friendID5 === friendID){
+	// 								dB(query.removeFriend5,[friendID,userID]).then(()=>{
+	// 									res.json({
+	// 										msg:'friendRemoved'
+	// 									})
+	// 								})
+	// 							}else{
+	// 								res.json({
+	// 									msg: 'justInCase'
+	// 								})
+	// 							}
+	// 						}
+	// 					})
+	// 				}
+	// 			})
+	// 		}
+	// 	}else{
+	// 		//don't do this to me.
+	// 		res.json({
+	// 			msg: 'register'
+	// 		});
+	// 	}
+	// });	
+	var userId = req.body.userId
+	var friendId = req.body.friendId
+
+	dB(query.removeFriend, [userId,friendId])
+		.then((results) => {
 			res.json({
-				msg: 'register'
-			});
-		}
-	});	
+				msg: 'Success'
+			})
+		})
 })
 
 //friends list
 router.post('/friends',(req,res)=>{
-	var token = req.body.token;
-	dB(query.account,[token]).then((results)=>{
-		var userID = results[0].userID;
-		dB(query.friends,[userID]).then((friends)=>{
-			if(friends.length === 0){
-				res.json({
-					msg: 'youreALonerHarry',
-				})
-			}else{
-				var array = [
-					{
-						id: friends[0].friendID1,
-						name: friends[0].friend1
-					},
-					{
-						id: friends[0].friendID2,
-						name: friends[0].friend2
-					},
-					{
-						id: friends[0].friendID3,
-						name: friends[0].friend3
-					},					
-					{
-						id: friends[0].friendID4,
-						name: friends[0].friend4
-					},
-					{
-						id: friends[0].friendID5,
-						name: friends[0].friend5
-					}					
-				]
-				res.json({
-					msg: 'lookAtYouPopularKid',
-					friends: array
-				})
-			}
+	// var token = req.body.token;
+	// dB(query.account,[token]).then((results)=>{
+	// 	var userID = results[0].userID;
+	// 	dB(query.friends,[userID]).then((friends)=>{
+	// 		if(friends.length === 0){
+	// 			res.json({
+	// 				friends: [],
+	// 				msg: 'youreALonerHarry'
+	// 			})
+	// 		}else{
+	// 			var array = [
+	// 				{
+	// 					id: friends[0].friendID1,
+	// 					name: friends[0].friend1
+	// 				},
+	// 				{
+	// 					id: friends[0].friendID2,
+	// 					name: friends[0].friend2
+	// 				},
+	// 				{
+	// 					id: friends[0].friendID3,
+	// 					name: friends[0].friend3
+	// 				},					
+	// 				{
+	// 					id: friends[0].friendID4,
+	// 					name: friends[0].friend4
+	// 				},
+	// 				{
+	// 					id: friends[0].friendID5,
+	// 					name: friends[0].friend5
+	// 				}					
+	// 			]
+	// 			res.json({
+	// 				msg: 'lookAtYouPopularKid',
+	// 				friends: array
+	// 			})
+	// 		}
+	// 	})
+	// })
+	var userId = req.body.userId
+	dB(query.friends,[userId])
+		.then((friends) => {
+			res.json({
+				msg: 'Success',
+				friends
+			})
 		})
-	})
 })
 
 //generic user profile pages

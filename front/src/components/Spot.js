@@ -3,14 +3,23 @@ import { Image, Text, View, Dimensions, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux'
 import { Button, Card, CardSection, BackButton } from './common';
+import Stars from './common/Stars';
 
 class Spot extends Component {
+
+	constructor(props) {
+		super(props);
+		this.state = {
+			starCount: 0
+		}
+	}
 
 	render() {
 
 		const { height, width } = Dimensions.get('window')
 		const { averageRating, totalRatings, city, state, description, locationName } = this.props.spot
-		console.log(this.props.id)
+		const avgRating = Math.round(averageRating)
+
 		return(
 
 			<ScrollView>
@@ -35,8 +44,12 @@ class Spot extends Component {
 				</CardSection>
 
 				<CardSection>
-					<Text style={{ color: '#fff' }}>Location: {city}, {state}{"\n"}rating: {averageRating} ({totalRatings})</Text>
+						<Text style={{ color: '#fff' }}>Location: {city}, {state}{"\n"}</Text>	
 				</CardSection>
+
+				<CardSection>
+					<Stars initCount={avgRating} disabled />
+				</CardSection>	
 
 				<CardSection>
 					<Text style={{ color: '#fff' }}> {description} </Text>

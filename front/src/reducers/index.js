@@ -5,6 +5,8 @@ import SpotReducer from './SpotReducer';
 import CreateSpotReducer from './CreateSpotReducer';
 import SettingsReducer from './SettingsReducer';
 import AccountReducer from './AccountReducer';
+import ReviewReducer from './ReviewReducer';
+import FriendReducer from './FriendReducer';
 
 export default combineReducers({
 	auth: AuthReducer,
@@ -12,5 +14,7 @@ export default combineReducers({
 	spot: SpotReducer,
 	newSpot: CreateSpotReducer,
 	account: AccountReducer,
-	settings: SettingsReducer
+	settings: SettingsReducer,
+	review: ReviewReducer,
+	friend: FriendReducer
 })

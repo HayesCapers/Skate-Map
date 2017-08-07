@@ -47,10 +47,15 @@ var query = {
 	addSkillReview: 'insert into __skillReviews (userID,reviewerID,skillRating,skillReview) values (?,?,?,?)',
 	//query for skill reviews for a user
 	skillReviews: 'select b.userName,a.skillRating, a.skillReview from __skillReviews a inner join __users b on a.reviewerID = b.userID where a.userID = ?',
+	// search for other users
+	userSearch: 'SELECT userName, userID FROM __users WHERE userName = ?',
+	// get friends details for friends profile
+	userDeets: 'SELECT deets, email, firstName, lastName, phoneNumber, userName, userID FROM __users WHERE userID = ?',
 	//friends list
-	friends: 'select a.friendID1,b.userName as friend1,a.friendID2,c.userName as friend2,a.friendID3,d.userName as friend3,a.friendID4,e.userName as friend4,a.friendID5,f.userName as friend5 from __friends a left join __users b on a.friendID1 = b.userID left join __users c on a.friendID2 = c.userID left join __users d on a.friendID3 = d.userID left join __users e on a.friendID4 = e.userID left join __users f on a.friendID5 = f.userID where a.userID = ?',
+	friends: 'SELECT friendID as id, friendName as name FROM __friends WHERE userID = ?',
 	//add your first friend
-	addFriend: 'insert into __friends (userID,friendID1) values (?,?)',
+	// addFriend: 'insert into __friends (userID,friendID1) values (?,?)',
+	addFriend: 'INSERT INTO __friends (userID,friendID,friendName) VALUES (?,?,?)',
 	//update your friends list
 	addFriend1: 'update __friends set friendID1 = ? where userID = ?',
 	addFriend2: 'update __friends set friendID2 = ? where userID = ?',
@@ -58,6 +63,8 @@ var query = {
 	addFriend4: 'update __friends set friendID4 = ? where userID = ?',
 	addFriend5: 'update __friends set friendID5 = ? where userID = ?',
 	//removing friend queries
+	removeFriend: 'DELETE FROM __friends WHERE userID = ? AND friendID = ?',
+
 	removeFriend1: 'update __friends set friendID1 = null where userID = ?',
 	removeFriend2: 'update __friends set friendID2 = null where userID = ?',
 	removeFriend3: 'update __friends set friendID3 = null where userID = ?',

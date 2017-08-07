@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
-import { View, Text, Image } from 'react-native';
+import { View, Text, Image, Dimensions, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { Button, Input, CardSection, BackButton } from './common';
+import Stars from './common/Stars';
 import { connect } from 'react-redux';
+import { reviewInputUpdate, submitReview } from '../actions/ReviewActions';
 
 const { axiosReq } = require('../../my_mods');
+const { height, width } = Dimensions.get('window')
 
 
 class Reviews extends Component {
@@ -24,6 +27,8 @@ class Reviews extends Component {
 				const reviewArray = [];
 
 				data.data.reviews.map((review, index) => {
+					var rating = Math.round(review.rating)
+					console.log(rating)
 					reviewArray.push(
 						<CardSection key={index}>
 							<View style={{ flex: 1 }}>
@@ -34,9 +39,7 @@ class Reviews extends Component {
 								<Text style={styles.text}>
 									{review.userName}
 								</Text>
-								<Text style={styles.text}>
-									{review.rating}
-								</Text>
+								<Stars initCount={rating} disabled={true} />
 							</View>
 							
 							<View style={{ flex: 1 }}>
@@ -59,6 +62,19 @@ class Reviews extends Component {
 		})
 	}
 
+	onSubmit() {
+		const data = {
+			locationID: this.props.id,
+			rating: this.props.userRating,
+			review: this.props.reviewText,
+			token: this.props.token,
+			userName: this.props.userName
+		}
+		console.log(data)
+
+		this.props.submitReview(data);
+	}
+
 	render() {
 
 		var isReview = <View>
@@ -71,17 +87,21 @@ class Reviews extends Component {
 		
 		if (this.state.inputExpanded) {
 			isReview = <View>
+							<View style={styles.stars}>
+								<Stars initCount={0} disabled={false} />
+							</View>	
 							<Input 
 								multiline
 								numberOfLines={5}
 								placeholder='review'
 								label='description'
-								onChangeText={value => console.log(value)}
+								value={this.props.reviewText}
+								onChangeText={value => this.props.reviewInputUpdate({ prop: 'reviewText', value })}
 								boxHeight={200}
 								containerHeight={215}
 							/>
 							<CardSection>
-								<Button>
+								<Button onPress={this.onSubmit.bind(this)}>
 									Submit
 								</Button>	
 							</CardSection>	
@@ -89,14 +109,16 @@ class Reviews extends Component {
 		}						
 
 		return(
-			<View style={{ marginTop: 50 }}>
+			<TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+				<View style={{ marginTop: 75 }}>
 
-				{isReview}
+					{isReview}
 
-				<BackButton />
+					<BackButton top={-100}/>
 
-				{this.state.reviews}
-			</View>
+					{this.state.reviews}
+				</View>
+			</TouchableWithoutFeedback>	
 		)
 	}
 }
@@ -105,13 +127,28 @@ const styles = {
 	text: {
 		color: '#fff',
 		fontFamily: 'American Captain',
+	},
+	stars: {
+		marginLeft: 50
 	}
 }
 
-const mapStateToProps = ({ spot }) => {
+const mapStateToProps = ({ spot, review, auth }) => {
 	return {
-		id: spot.id
+		id: spot.id,
+		userRating: review.stars,
+		reviewText: review.reviewText,
+		token: auth.user.token,
+		userName: auth.user.userName
 	}
 }
 
-export default connect(mapStateToProps)(Reviews);
+export default connect(mapStateToProps, { reviewInputUpdate, submitReview })(Reviews);
+
+
+
+
+
+
+
+

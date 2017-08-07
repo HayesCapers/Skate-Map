@@ -27,7 +27,7 @@ class DrawerContents extends Component {
 				<MenuItem
 					icon={'group'}
 					title='Friends'
-					onPress={() => {console.log('pressed')}}
+					onPress={() => Actions.friends()}
 				/>
 
 				<MenuItem
