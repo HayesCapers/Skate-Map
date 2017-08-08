@@ -18,7 +18,7 @@ class Friends extends Component {
 	}
 
 	componentDidMount() {
-		const url = 'http://localhost:3000/friends'
+		const url = 'http://hayescapers.com:3000/friends'
 		const userId = this.props.userId
 		console.log(userId)
 		var friendIds = []

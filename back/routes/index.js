@@ -31,13 +31,13 @@ router.post('/login',(req,res)=>{
 			}else{
 				//well, you tried remembering your password. Not well enough.
 				res.json({
-					msg: 'invalidPass'
+					msg: 'Invalid Password'
 				});
 			}
 		}else{
 			// do you even spell, bruh?
 			res.json({
-				msg: 'invalidUserName'
+				msg: 'Invalid User Name'
 			});
 		}
 	});
@@ -53,11 +53,11 @@ router.post('/register', (req,res)=>{
 		if(deets.length > 0){
 			if(deets[0].email === reg.email){
 				res.json({
-					msg: 'emailTaken'
+					msg: 'Email Taken'
 				});
 			}else if(deets[0].userName === reg.userName){
 				res.json({
-					msg: 'nameTaken'
+					msg: 'User Name Taken'
 				});
 			}
 		}else{

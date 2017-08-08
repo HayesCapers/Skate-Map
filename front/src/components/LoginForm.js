@@ -23,6 +23,13 @@ class LoginForm extends Component {
 	}
 
 	render(){
+
+		if (this.props.error) {
+			var errorMsg =  this.props.errorMsg 
+		}else{
+			var errorMsg = ''
+		}
+
 		return(
 			<TouchableWithoutFeedback onPress={Keyboard.dismiss}>
 				<View style={{ marginTop: 70 }}>
@@ -30,6 +37,8 @@ class LoginForm extends Component {
 					<Logo />
 
 					<View style={{ marginTop: 10 }}>
+
+						<Text style={styles.errorTextStyle}>{errorMsg}</Text>
 
 						<Input 
 							placeholder='user'
@@ -47,10 +56,6 @@ class LoginForm extends Component {
 						/>
 
 					</View>	
-
-					<Text style={styles.errorTextStyle}>
-
-					</Text>
 
 					<View style={{ marginTop: 10 }}>
 
@@ -91,6 +96,7 @@ const mapStateToProps = ({ auth }) => {
 		userName: auth.userName,
 		password: auth.password,
 		error: auth.error,
+		errorMsg: auth.errorMsg,
 		loading: auth.loading,
 		user: auth.user
 	}

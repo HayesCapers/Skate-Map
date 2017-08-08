@@ -20,7 +20,7 @@ class Reviews extends Component {
 
 	componentDidMount() {
 		console.log(this.props.id)
-		const url = 'http://localhost:3000/reviews'
+		const url = 'http://hayescapers.com:3000/reviews'
 
 		axiosReq('post',url,{ locationID: this.props.id })
 			.then(data => {

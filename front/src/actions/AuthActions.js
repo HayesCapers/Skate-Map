@@ -28,11 +28,12 @@ export const loginUser = (userName, password) => {
 	return (dispatch) => {
 		dispatch({ type: LOGIN_USER })
 
-		const url = 'http://localhost:3000/login'
+		const url = 'http://hayescapers.com:3000/login'
 		const data = {
 					userName: userName,
 					password: password
 				}
+		console.log(url)
 
 		axiosReq('post',url,data)
 			.then(user => {
@@ -40,9 +41,9 @@ export const loginUser = (userName, password) => {
 				if (user.data.msg === 'Success') {
 					loginUserSuccess(dispatch,user)
 				} else {
-					loginUserFail(dispatch)
+					loginUserFail(dispatch, user.data.msg)
 				}
-			}).catch(() => loginUserFail(dispatch))
+			}).catch((err) => loginUserFail(dispatch, err))
 	}
 }
 

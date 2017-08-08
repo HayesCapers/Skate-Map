@@ -37,7 +37,7 @@ export const submitNewSpot = (spotObj) => {
 	return (dispatch) => {
 		dispatch({ type: CREATE_NEW_SPOT })
 
-		const url = 'http://localhost:3000/addSpot'
+		const url = 'http://hayescapers.com:3000/addSpot'
 		axiosReq('post', url, spotObj)
 			.then(res => {
 				if (res.status === 200){

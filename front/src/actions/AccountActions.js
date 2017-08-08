@@ -21,7 +21,7 @@ export const getAccountDetails = (token) => {
 	return (dispatch) => {
 		dispatch({ type: GET_USER_DETAILS })
 
-		const url = 'http://localhost:3000/account'
+		const url = 'http://hayescapers.com:3000/account'
 		const data = {
 			token
 		}
@@ -62,7 +62,7 @@ export const updateAccount = (user) => {
 	return (dispatch) => {
 		dispatch({ type: UPDATE_ACCOUNT })
 
-		const url = 'http://localhost:3000/updateAccount';
+		const url = 'http://hayescapers.com:3000/updateAccount';
 
 		axiosReq('post',url,user)
 			.then((res) => {

@@ -16,6 +16,13 @@ class RegisterForm extends Component {
 	}
 
 	render() {
+
+		if (this.props.error) {
+			var errorMsg = this.props.errorMsg
+		}else{
+			var erroMsg = ''
+		}
+
 		return(
 			<TouchableWithoutFeedback onPress={Keyboard.dismiss}>
 
@@ -26,6 +33,8 @@ class RegisterForm extends Component {
 					<Logo />
 
 					<View style={styles.form}>
+
+						<Text style={styles.errorTextStyle}>{errorMsg}</Text>
 
 						<Input 
 							placeholder='NickSux'
@@ -82,14 +91,32 @@ const styles = {
 	},
 	button: {
 		marginTop: 10
+	},
+	errorTextStyle: {
+		fontSize: 20,
+		alignSelf: 'center',
+		color: 'red',
 	}
 }
 
 const mapStateToProps = (state) => {
 	const { userName, email, password, phone } = state.registerForm;
-	const { user } = state.auth
+	const { user, error, errorMsg } = state.auth
 
-	return { userName, email, password, phone, user }
+	return { userName, email, password, phone, user, error, errorMsg }
 }
 
 export default connect(mapStateToProps,{ registerUpdate, registerUser })(RegisterForm);
+
+
+
+
+
+
+
+
+
+
+
+
+

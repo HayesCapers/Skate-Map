@@ -11,7 +11,7 @@ const { axiosReq } = require('../../my_mods')
 class StaticProfile extends Component {
 
 	addFriend() {
-		const url = 'http://localhost:3000/addFriend'
+		const url = 'http://hayescapers.com:3000/addFriend'
 		const data = {
 			userId: this.props.userId,
 			friendId: this.props.selectedUser.userID,
@@ -25,7 +25,7 @@ class StaticProfile extends Component {
 	}
 
 	removeFriend() {
-		const url = 'http://localhost:3000/removeFriends'
+		const url = 'http://hayescapers.com:3000/removeFriends'
 		const data = {
 			userId: this.props.userId,
 			friendId: this.props.selectedUser.userID,

@@ -9,7 +9,6 @@ import {
 	email: '',
 	phone: '',
 	user: null,
-	error: '',
 	loading: false
 }
 

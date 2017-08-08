@@ -4,29 +4,33 @@ import {
 	LOGIN_USER_SUCCESS,
 	LOGIN_USER,
 	LOGIN_USER_FAIL,
-	INPUT_CHANGED
+	INPUT_CHANGED,
+	REGISTER_UPDATE
  } from '../actions/types';
 
 const INITIAL_STATE = {
 	userName: '',
 	password: '',
 	user: null,
-	error: '',
+	error: false,
+	errorMsg: '',
 	loading: false
 }
 
 export default (state = INITIAL_STATE, action) => {
 	switch (action.type) {
 		case USERNAME_CHANGED:
-			return { ...state, userName: action.payload}
+			return { ...state, userName: action.payload, error: false }
 		case PASSWORD_CHANGED:
-			return { ...state, password: action.payload}
+			return { ...state, password: action.payload, error: false }
 		case LOGIN_USER:
 			return { ...state, loading: true}	
 		case LOGIN_USER_SUCCESS:
-			return { ...state, ...INITIAL_STATE, user: action.payload}
+			return { ...state, ...INITIAL_STATE, user: action.payload }
 		case LOGIN_USER_FAIL:
-			return { ...state, error: 'Incorrect username or password', password: '', loading: false}	
+			return { ...state, error: true, errorMsg: action.payload , password: '', loading: false}	
+		case REGISTER_UPDATE:
+			return { ...state, error: false}
 		default:
 			return state
 	}

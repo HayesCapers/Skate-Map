@@ -15,7 +15,7 @@ export const getSpotDetails = (locationID) => {
 			payload: locationID 
 		})
 
-		const url = 'http://localhost:3000/deets';
+		const url = 'http://hayescapers.com:3000/deets';
 		const data = { locationID }
 
 		axiosReq('post',url,data)

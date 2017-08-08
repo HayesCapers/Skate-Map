@@ -48,7 +48,7 @@ class Map extends Component {
 	}
 
 	getSpots() {
-		const url = 'http://localhost:3000/initMarkers';
+		const url = 'http://hayescapers.com:3000/initMarkers';
 		const data = {
 			lat: this.state.initLocation.latitude,
 			lon: this.state.initLocation.longitude

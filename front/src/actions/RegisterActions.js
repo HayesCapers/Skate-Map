@@ -21,15 +21,15 @@ export const registerUser = (user) => {
 	return (dispatch) => {
 		dispatch({ type: REGISTER_USER })
 
-		const url = 'http://localhost:3000/register'
+		const url = 'http://hayescapers.com:3000/register'
 		axiosReq('post',url,user)
 			.then(user => {
-				if (user.status === 200) {
+				if (user.data.msg === 'Success') {
 					registerUserSuccess(dispatch,user.data)
 				} else {
-					registerUserFail(dispatch)
+					registerUserFail(dispatch, user.data.msg)
 				}
-			}).catch(() => registerUserFail(dispatch))
+			}).catch((err) => registerUserFail(dispatch, err))
 	}	
 } 
 

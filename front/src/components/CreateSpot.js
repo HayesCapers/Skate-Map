@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
-import { View } from 'react-native';
+import { View, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { inputUpdate, submitNewSpot } from '../actions/CreateSpotActions';
-import { Card, CardSection, Input, Button, BackButton, TouchableWithoutFeedback, Keyboard } from './common';
+import { Card, CardSection, Input, Button, BackButton } from './common';
 
 
 
@@ -20,6 +20,10 @@ class CreateSpot extends Component {
 		Actions.camera()
 	}
 
+	goToMap() {
+		Actions.map()
+	}
+
 	render() {
 		const { title, city, state, description, inputUpdate } = this.props
 
@@ -27,7 +31,7 @@ class CreateSpot extends Component {
 			<TouchableWithoutFeedback onPress={Keyboard.dismiss}>
 				<View style={{ marginTop: 100 }}>
 
-					<BackButton />
+					<BackButton onPress={() => this.goToMap()}/>
 
 						<Input
 							placeholder='title'

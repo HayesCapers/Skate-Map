@@ -23,7 +23,7 @@ export const searchUsers = (userName) => {
 	return (dispatch) => {
 		dispatch({ type: SEARCH_USERS })
 
-		const url = 'http://localhost:3000/searchUser';
+		const url = 'http://hayescapers.com:3000/searchUser';
 
 		axiosReq('post',url, { userName })
 			.then((results) => {
@@ -46,7 +46,7 @@ export const saveFriendId = (array) => {
 
 export const getUserProfile = (userId) => {
 	return (dispatch) => {
-		const url = 'http://localhost:3000/userDeets';
+		const url = 'http://hayescapers.com:3000/userDeets';
 
 		axiosReq('post',url,{ userId })
 			.then((results) => {

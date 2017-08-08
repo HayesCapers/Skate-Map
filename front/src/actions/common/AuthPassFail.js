@@ -5,9 +5,10 @@ import {
 	LOGIN_USER_SUCCESS,
 } from '../types';
 
-export const loginUserFail = (dispatch) => {
+export const loginUserFail = (dispatch,msg) => {
 	dispatch({
-		type: LOGIN_USER_FAIL
+		type: LOGIN_USER_FAIL,
+		payload: msg
 	})
 }
 
@@ -20,9 +21,10 @@ export const loginUserSuccess = (dispatch, user) => {
 	Actions.main()
 }
 
-export const registerUserFail = (dispatch) => {
+export const registerUserFail = (dispatch, msg) => {
 	dispatch({
-		type: LOGIN_USER_FAIL
+		type: LOGIN_USER_FAIL,
+		payload: msg
 	})
 }
 

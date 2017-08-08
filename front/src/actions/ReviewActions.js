@@ -14,7 +14,7 @@ export const updateStars = (int) => {
 
 export const submitReview = (review) => {
 	return (dispatch) => {
-		const url = 'http://localhost:3000/addReview';
+		const url = 'http://hayescapers.com:3000/addReview';
 
 		axiosReq('post',url,review)
 			.then((response) => {
