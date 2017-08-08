@@ -2,9 +2,17 @@ import React, { Component } from 'react';
 import { View, Image } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { Actions } from 'react-native-router-flux';
+import { connect } from 'react-redux';
 import { MenuItem } from './';
+import { logOutUser } from '../../actions/AuthActions';
 
-class DrawerContents extends Component {
+class DrawerComponent extends Component {
+
+	logOut() {
+		this.props.logOutUser()
+		Actions.auth()
+	}
+
 	render() {
 		const { container, imgContainer, logo } = styles
 
@@ -51,7 +59,7 @@ class DrawerContents extends Component {
 				<MenuItem
 					icon={'more-horiz'}
 					title='Log Out'
-					onPress={() => {console.log('pressed')}}
+					onPress={() => this.logOut()}
 				/>
 
 			</View>
@@ -73,4 +81,10 @@ const styles = {
 	}
 }
 
+
+const DrawerContents = connect(null, { logOutUser })(DrawerComponent) 
 export { DrawerContents }
+
+
+
+

@@ -7,6 +7,7 @@ import {
 	UPDATE_ACCOUNT_FAIL,
 	UPDATE_ACCOUNT_SUCCESS
 } from './types';
+import { Actions } from 'react-native-router-flux'
 
 const { axiosReq } = require('../../my_mods');
 
@@ -70,6 +71,8 @@ export const updateAccount = (user) => {
 					dispatch({
 						type: UPDATE_ACCOUNT_FAIL,
 					})
+				}else{
+					Actions.map()
 				}
 			}).catch(() => {
 				dispatch({

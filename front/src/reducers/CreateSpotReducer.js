@@ -1,7 +1,8 @@
 import {
 	CURRENT_LOCATION,
 	INPUT_UPDATE,
-	TAKE_PICTURE
+	TAKE_PICTURE,
+	LOGOUT_USER
 } from '../actions/types';
 
 const INITIAL_STATE = {
@@ -22,6 +23,8 @@ export default (state = INITIAL_STATE, action) => {
 			return { ...state, [action.payload.prop]: action.payload.value }
 		case TAKE_PICTURE:
 			return { ...state, image: action.payload }
+		case LOGOUT_USER:
+			return { ...INITIAL_STATE }
 		default:
 			return state
 	}

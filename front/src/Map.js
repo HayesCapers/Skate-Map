@@ -31,21 +31,26 @@ class Map extends Component {
 	}
 
 	componentDidMount() {
-		// navigator.geolocation.getCurrentPosition((position) => {
-		// 	console.log(position)
-		// 	var newLocation = {
-		// 		latitude: position.coords.latitude,
-		// 		longitude: position.coords.longitude,
-		// 		latitudeDelta: 0.1,
-		// 		longitudeDelta: 0.1
-		// 	}
-		// 	this.setState({
-		// 		initLocation: newLocation
-		// 	})
-		// })
+		this.getSpots()
+	}
+
+	onRegionChange() {
+		navigator.geolocation.getCurrentPosition((position) => {
+			console.log(position)
+			var newLocation = {
+				latitude: position.coords.latitude,
+				longitude: position.coords.longitude,
+				latitudeDelta: 0.1,
+				longitudeDelta: 0.1
+			}
+			this.setState({
+				initLocation: newLocation,
+			})
+		})
 
 		this.getSpots()
 	}
+
 
 	getSpots() {
 		const url = 'http://hayescapers.com:3000/initMarkers';
@@ -57,7 +62,6 @@ class Map extends Component {
 
 		axiosReq('post',url,data)
 			.then(res => {
-				console.log(res.data.spots)
 				res.data.spots.map(spot => {
 					spotArr.push(spot)
 				})
@@ -114,10 +118,12 @@ class Map extends Component {
 			<View style={styles.container}>
 
 				<MapView 
-					provider={PROVIDER_GOOGLE}
+					provider={'google'}
 					customMapStyle={mapstyles[this.props.styleIndex]}
+					loadingEnabled
+					onRegionChangeComplete={this.onRegionChange.bind(this)}
 					showsUserLocation={true}
-					initialRegion={this.state.initLocation}
+					followsUserLocation={true}
 					region={this.state.initLocation}
 					style={styles.map}
 					rotateEnabled={false}

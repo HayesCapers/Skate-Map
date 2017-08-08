@@ -1,7 +1,8 @@
 import {
 	GET_SPOT,
 	GET_SPOT_SUCCESS,
-	GET_SPOT_FAIL
+	GET_SPOT_FAIL,
+	LOGOUT_USER
 } from '../actions/types';
 
 const INITIAL_STATE = {
@@ -19,7 +20,9 @@ export default (state = INITIAL_STATE, action) => {
 		case GET_SPOT_SUCCESS:
 			return { ...state, loading: false, spotDetails: action.payload }
 		case GET_SPOT_FAIL:
-			return { ...state, ...INITIAL_STATE }		
+			return { ...state, ...INITIAL_STATE }	
+		case LOGOUT_USER:
+			return { ...INITIAL_STATE }	
 		default:
 			return state
 	}

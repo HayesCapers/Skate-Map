@@ -59,7 +59,6 @@ class StaticProfile extends Component {
 
 		return(
 			<View style={{ marginTop: 75 }}>
-				<BackButton />
 
 				<View style={header}>
 					<Image 
@@ -79,6 +78,8 @@ class StaticProfile extends Component {
 						source={require('../assets/images/user-placeholder.png')} 
 					/>
 				</View>
+
+				<BackButton top={-250}/>
 
 				{button}
 

@@ -4,7 +4,8 @@ import {
 	SEARCH_USERS_SUCCESS,
 	SEARCH_USERS_FAIL,
 	SAVE_FRIEND_ID,
-	GET_USER_DEETS_SUCCESS
+	GET_USER_DEETS_SUCCESS,
+	LOGOUT_USER
 } from '../actions/types';
 
 const INITIAL_STATE = {
@@ -24,6 +25,8 @@ export default (state = INITIAL_STATE, action) => {
 			return { ...state, friends: action.payload }
 		case GET_USER_DEETS_SUCCESS:
 			return { ...state, selectedUser: action.payload }	
+		case LOGOUT_USER:
+			return { ...INITIAL_STATE }	
 		default:
 			return state
 	}

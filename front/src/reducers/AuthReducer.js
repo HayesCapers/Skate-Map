@@ -5,7 +5,8 @@ import {
 	LOGIN_USER,
 	LOGIN_USER_FAIL,
 	INPUT_CHANGED,
-	REGISTER_UPDATE
+	REGISTER_UPDATE,
+	LOGOUT_USER
  } from '../actions/types';
 
 const INITIAL_STATE = {
@@ -31,6 +32,8 @@ export default (state = INITIAL_STATE, action) => {
 			return { ...state, error: true, errorMsg: action.payload , password: '', loading: false}	
 		case REGISTER_UPDATE:
 			return { ...state, error: false}
+		case LOGOUT_USER:
+			return { ...INITIAL_STATE }
 		default:
 			return state
 	}

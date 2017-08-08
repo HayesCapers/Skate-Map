@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Image, Text, Dimensions, ScrollView, TouchableWithoutFeedback, Keyboard } from 'react-native';
-import { CardSection, Input, Button } from './common';
+import { CardSection, Input, Button, BackButton } from './common';
 import { connect } from 'react-redux';
 import { getAccountDetails, accountInputUpdate, updateAccount } from '../actions/AccountActions';
 
@@ -39,6 +39,8 @@ class UserProfile extends Component {
 							source={require('../assets/images/atlSkyline.png')} 
 						/>
 					</View>
+
+					<BackButton top={-200}/>
 
 					<View style={nameContainer}>
 						<Text style={nameText}>{this.props.userName}</Text>
@@ -111,6 +113,7 @@ class UserProfile extends Component {
 
 const styles = {
 	main: {
+		marginTop: 75,
 		position: 'relative',
 		flex: 1
 	},

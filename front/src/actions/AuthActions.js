@@ -4,7 +4,8 @@ import {
 	PASSWORD_CHANGED,
 	LOGIN_USER_SUCCESS,
 	LOGIN_USER,
-	LOGIN_USER_FAIL
+	LOGIN_USER_FAIL,
+	LOGOUT_USER
  } from './types';
 import { loginUserFail, loginUserSuccess } from './common';
  
@@ -44,6 +45,12 @@ export const loginUser = (userName, password) => {
 					loginUserFail(dispatch, user.data.msg)
 				}
 			}).catch((err) => loginUserFail(dispatch, err))
+	}
+}
+
+export const logOutUser = () => {
+	return {
+		type: LOGOUT_USER
 	}
 }
 

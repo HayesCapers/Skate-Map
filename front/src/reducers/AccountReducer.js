@@ -3,7 +3,8 @@ import {
 	GET_USER_DETAILS,
 	GET_USER_DETAILS_FAIL,
 	GET_USER_DETAILS_SUCCESS,
-	UPDATE_ACCOUNT_FAIL
+	UPDATE_ACCOUNT_FAIL,
+	LOGOUT_USER
 } from '../actions/types';
 
 const INITIAL_STATE = {
@@ -26,6 +27,8 @@ export default (state = INITIAL_STATE, action) => {
 			return { ...state, [action.payload.prop]: action.payload.value, error: false }
 		case UPDATE_ACCOUNT_FAIL:
 			return { ...state, error: true}
+		case LOGOUT_USER:
+			return { ...INITIAL_STATE }
 		default:
 			return state
 	}
