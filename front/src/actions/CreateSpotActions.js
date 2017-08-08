@@ -34,6 +34,7 @@ export const takePic = (imagePath) => {
 }
 
 export const submitNewSpot = (spotObj) => {
+	console.log(spotObj.latitude, spotObj.longitude)
 	return (dispatch) => {
 		dispatch({ type: CREATE_NEW_SPOT })
 
@@ -41,10 +42,8 @@ export const submitNewSpot = (spotObj) => {
 		axiosReq('post', url, spotObj)
 			.then(res => {
 				if (res.status === 200){
-					console.log(res)
 					s3Upload(spotObj.image, res.data.spotID)
 						.then(response => {
-							console.log(response)
 							if (response.status !== 201) {
 								createSpotFail(dispatch)
 							}

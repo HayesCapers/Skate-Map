@@ -240,6 +240,7 @@ router.post('/deets',(req,res)=>{
 //adding brand new spot to the dB. Sending back the spotID
 router.post('/addSpot',(req,res)=>{
 	//incoming info from form submission
+	console.log(req.body.longitude)
    	var info = [
    		req.body.locationName,
    		req.body.city,

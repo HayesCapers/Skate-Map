@@ -24,31 +24,33 @@ class Map extends Component {
 				latitudeDelta: 0.02,
 				longitudeDelta: 0.02,
 			},
-			spots: []
+			spots: [],
 		}
 
 		this.getSpots = this.getSpots.bind(this)		
 	}
 
 	componentDidMount() {
-		this.getSpots()
+		setTimeout(() => this.onRegionChange(), 200)
 	}
 
 	onRegionChange() {
-		navigator.geolocation.getCurrentPosition((position) => {
-			console.log(position)
-			var newLocation = {
-				latitude: position.coords.latitude,
-				longitude: position.coords.longitude,
-				latitudeDelta: 0.1,
-				longitudeDelta: 0.1
-			}
-			this.setState({
-				initLocation: newLocation,
+			navigator.geolocation.getCurrentPosition((position) => {
+				console.log(position)
+				var newLocation = {
+					latitude: position.coords.latitude,
+					longitude: position.coords.longitude,
+					latitudeDelta: 0.05,
+					longitudeDelta: 0.05
+				}
+				this.setState({
+					initLocation: newLocation,
+					count: 1
+				})
 			})
-		})
 
-		this.getSpots()
+			this.getSpots()
+
 	}
 
 
@@ -121,12 +123,11 @@ class Map extends Component {
 					provider={'google'}
 					customMapStyle={mapstyles[this.props.styleIndex]}
 					loadingEnabled
-					onRegionChangeComplete={this.onRegionChange.bind(this)}
+					zoomEnabled={true}
+
 					showsUserLocation={true}
-					followsUserLocation={true}
 					region={this.state.initLocation}
 					style={styles.map}
-					rotateEnabled={false}
 				>
 					{spotBox}
 				</MapView>
