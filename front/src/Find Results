@@ -1,0 +1,98 @@
+Searching 76 files for "http://hayescapers.com:3000"
+
+/Users/hayes/Desktop/skate/front/src/actions/AccountActions.js:
+   23  		dispatch({ type: GET_USER_DETAILS })
+   24  
+   25: 		const url = 'http://hayescapers.com:3000/account'
+   26  		const data = {
+   27  			token
+   ..
+   64  		dispatch({ type: UPDATE_ACCOUNT })
+   65  
+   66: 		const url = 'http://hayescapers.com:3000/updateAccount';
+   67  
+   68  		axiosReq('post',url,user)
+
+/Users/hayes/Desktop/skate/front/src/actions/AuthActions.js:
+   30  		dispatch({ type: LOGIN_USER })
+   31  
+   32: 		const url = 'http://hayescapers.com:3000/login'
+   33  		const data = {
+   34  					userName: userName,
+
+/Users/hayes/Desktop/skate/front/src/actions/CreateSpotActions.js:
+   39  		dispatch({ type: CREATE_NEW_SPOT })
+   40  
+   41: 		const url = 'http://hayescapers.com:3000/addSpot'
+   42  		axiosReq('post', url, spotObj)
+   43  			.then(res => {
+
+/Users/hayes/Desktop/skate/front/src/actions/FriendActions.js:
+   24  		dispatch({ type: SEARCH_USERS })
+   25  
+   26: 		const url = 'http://hayescapers.com:3000/searchUser';
+   27  
+   28  		axiosReq('post',url, { userName })
+   ..
+   47  export const getUserProfile = (userId) => {
+   48  	return (dispatch) => {
+   49: 		const url = 'http://hayescapers.com:3000/userDeets';
+   50  
+   51  		axiosReq('post',url,{ userId })
+
+/Users/hayes/Desktop/skate/front/src/actions/RegisterActions.js:
+   22  		dispatch({ type: REGISTER_USER })
+   23  
+   24: 		const url = 'http://hayescapers.com:3000/register'
+   25  		axiosReq('post',url,user)
+   26  			.then(user => {
+
+/Users/hayes/Desktop/skate/front/src/actions/ReviewActions.js:
+   15  export const submitReview = (review) => {
+   16  	return (dispatch) => {
+   17: 		const url = 'http://hayescapers.com:3000/addReview';
+   18  
+   19  		axiosReq('post',url,review)
+
+/Users/hayes/Desktop/skate/front/src/actions/SpotActions.js:
+   16  		})
+   17  
+   18: 		const url = 'http://hayescapers.com:3000/deets';
+   19  		const data = { locationID }
+   20  
+
+/Users/hayes/Desktop/skate/front/src/components/Friends.js:
+   19  
+   20  	componentDidMount() {
+   21: 		const url = 'http://hayescapers.com:3000/friends'
+   22  		const userId = this.props.userId
+   23  		console.log(userId)
+
+/Users/hayes/Desktop/skate/front/src/components/Review.js:
+   21  	componentDidMount() {
+   22  		console.log(this.props.id)
+   23: 		const url = 'http://hayescapers.com:3000/reviews'
+   24  
+   25  		axiosReq('post',url,{ locationID: this.props.id })
+
+/Users/hayes/Desktop/skate/front/src/components/StaticProfile.js:
+   12  
+   13  	addFriend() {
+   14: 		const url = 'http://hayescapers.com:3000/addFriend'
+   15  		const data = {
+   16  			userId: this.props.userId,
+   ..
+   26  
+   27  	removeFriend() {
+   28: 		const url = 'http://hayescapers.com:3000/removeFriends'
+   29  		const data = {
+   30  			userId: this.props.userId,
+
+/Users/hayes/Desktop/skate/front/src/Map.js:
+   56  
+   57  	getSpots() {
+   58: 		const url = 'http://hayescapers.com:3000/initMarkers';
+   59  		const data = {
+   60  			lat: this.state.initLocation.latitude,
+
+14 matches across 11 files

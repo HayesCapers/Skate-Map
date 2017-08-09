@@ -41,7 +41,8 @@ export const submitNewSpot = (spotObj) => {
 		const url = 'http://hayescapers.com:3000/addSpot'
 		axiosReq('post', url, spotObj)
 			.then(res => {
-				if (res.status === 200){
+				console.log(res)
+				if (res.data.msg === 'Success'){
 					s3Upload(spotObj.image, res.data.spotID)
 						.then(response => {
 							if (response.status !== 201) {

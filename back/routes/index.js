@@ -240,7 +240,6 @@ router.post('/deets',(req,res)=>{
 //adding brand new spot to the dB. Sending back the spotID
 router.post('/addSpot',(req,res)=>{
 	//incoming info from form submission
-	console.log(req.body.longitude)
    	var info = [
    		req.body.locationName,
    		req.body.city,
@@ -252,24 +251,12 @@ router.post('/addSpot',(req,res)=>{
    	];
    	//insert spot into dB
 	dB(query.addSpot,info).then((deets)=>{
+		console.log(deets.insertId)
 		//console.log to see if deets returns the new locationID, if not, then following query is setup for it.
-		console.log(req.body.latitude)
-		//quick (hopefully) dB query to get locationID by lon and lat
-		dB(query.locID,[req.body.latitude,req.body.longitude]).then((results)=>{
-
-			if(results.length === 0){
-				//clearly something is wrong
-				res.json({
-					msg: 'shitBroke'
-				});
-			}else{
-				//and working.
-				res.json({
-					msg: 'spotAdded',
-					spotID: results[0].locationID
-				});
-			}
-		});
+		res.json({
+			msg: 'Success',
+			spotID: deets.insertId
+		})
 	});
 });
 
