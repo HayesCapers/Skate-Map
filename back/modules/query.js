@@ -48,7 +48,7 @@ var query = {
 	//query for skill reviews for a user
 	skillReviews: 'select b.userName,a.skillRating, a.skillReview from __skillReviews a inner join __users b on a.reviewerID = b.userID where a.userID = ?',
 	// search for other users
-	userSearch: 'SELECT userName, userID FROM __users WHERE userName = ?',
+	userSearch: 'SELECT userName, userID FROM __users WHERE userName LIKE ?',
 	// get friends details for friends profile
 	userDeets: 'SELECT deets, email, firstName, lastName, phoneNumber, userName, userID FROM __users WHERE userID = ?',
 	//friends list

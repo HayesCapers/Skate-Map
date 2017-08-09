@@ -30,32 +30,41 @@ class LoginForm extends Component {
 			var errorMsg = ''
 		}
 
+		if (this.props.loading) {
+			var inputField = <View style={{ marginTop: 10 }}>
+
+								<Spinner />
+
+							</View>	
+		}else {
+			var inputField = <View style={{ marginTop: 10 }}>
+
+								<Text style={styles.errorTextStyle}>{errorMsg}</Text>
+
+								<Input 
+									placeholder='user'
+									label='Username'
+									onChangeText={this.onUserNameChange.bind(this)}
+									value={this.props.userName}
+								/>
+
+								<Input 
+									secureTextEntry
+									placeholder='password'
+									label="Password"
+									onChangeText={this.onPasswordChange.bind(this)}
+									value={this.props.password}
+								/>
+							</View>	
+		}
+
 		return(
 			<TouchableWithoutFeedback onPress={Keyboard.dismiss}>
 				<View style={{ marginTop: 70 }}>
 
 					<Logo />
 
-					<View style={{ marginTop: 10 }}>
-
-						<Text style={styles.errorTextStyle}>{errorMsg}</Text>
-
-						<Input 
-							placeholder='user'
-							label='Username'
-							onChangeText={this.onUserNameChange.bind(this)}
-							value={this.props.userName}
-						/>
-
-						<Input 
-							secureTextEntry
-							placeholder='password'
-							label="Password"
-							onChangeText={this.onPasswordChange.bind(this)}
-							value={this.props.password}
-						/>
-
-					</View>	
+					{inputField}
 
 					<View style={{ marginTop: 10 }}>
 

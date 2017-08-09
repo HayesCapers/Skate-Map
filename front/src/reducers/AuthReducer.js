@@ -6,6 +6,7 @@ import {
 	LOGIN_USER_FAIL,
 	INPUT_CHANGED,
 	REGISTER_UPDATE,
+	REGISTER_USER,
 	LOGOUT_USER
  } from '../actions/types';
 
@@ -32,6 +33,8 @@ export default (state = INITIAL_STATE, action) => {
 			return { ...state, error: true, errorMsg: action.payload , password: '', loading: false}	
 		case REGISTER_UPDATE:
 			return { ...state, error: false}
+		case REGISTER_USER:
+			return { ...state, loading: true }
 		case LOGOUT_USER:
 			return { ...INITIAL_STATE }
 		default:
