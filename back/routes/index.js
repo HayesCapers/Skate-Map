@@ -231,7 +231,7 @@ router.post('/deets',(req,res)=>{
 			});
 		}else{
 			res.json({
-				msg: 'shitBroke'
+				msg: 'Broken'
 			});
 		}
 	});
@@ -299,7 +299,7 @@ router.post('/addReview', (req,res)=>{
 					if(user.length === 0){
 						//just in case... i guess?
 						res.json({
-							msg: 'shitBroke'
+							msg: 'Broken'
 						});
 					}else{
 						//lets add that review. 
@@ -364,7 +364,7 @@ router.post('/addSecReview', (req,res)=>{
 					//hope this never gets seen.
 					if(user.length === 0){
 						res.json({
-							msg: 'shitBroke'
+							msg: 'Broken'
 						});
 					}else{
 						var userID = user[0].userID;
@@ -481,7 +481,7 @@ router.post('/addFriend', (req,res)=>{
 	// 			dB(query.userCheck,[friendName]).then((friend)=>{
 	// 				if(friend.length === 0){
 	// 					res.json({
-	// 						msg: 'shitBroke'
+	// 						msg: 'Broken'
 	// 					})
 	// 				}else{
 	// 					var friendID = friend[0].userID;
@@ -569,7 +569,7 @@ router.post('/removeFriends',(req,res)=>{
 	// 			dB(query.userCheck,[friendName]).then((friend)=>{
 	// 				if(friend.length === 0){
 	// 					res.json({
-	// 						msg: 'shitBroke'
+	// 						msg: 'Broken'
 	// 					})
 	// 				}else{
 	// 					var friendID = friend[0].userID;
@@ -639,45 +639,6 @@ router.post('/removeFriends',(req,res)=>{
 
 //friends list
 router.post('/friends',(req,res)=>{
-	// var token = req.body.token;
-	// dB(query.account,[token]).then((results)=>{
-	// 	var userID = results[0].userID;
-	// 	dB(query.friends,[userID]).then((friends)=>{
-	// 		if(friends.length === 0){
-	// 			res.json({
-	// 				friends: [],
-	// 				msg: 'youreALonerHarry'
-	// 			})
-	// 		}else{
-	// 			var array = [
-	// 				{
-	// 					id: friends[0].friendID1,
-	// 					name: friends[0].friend1
-	// 				},
-	// 				{
-	// 					id: friends[0].friendID2,
-	// 					name: friends[0].friend2
-	// 				},
-	// 				{
-	// 					id: friends[0].friendID3,
-	// 					name: friends[0].friend3
-	// 				},					
-	// 				{
-	// 					id: friends[0].friendID4,
-	// 					name: friends[0].friend4
-	// 				},
-	// 				{
-	// 					id: friends[0].friendID5,
-	// 					name: friends[0].friend5
-	// 				}					
-	// 			]
-	// 			res.json({
-	// 				msg: 'lookAtYouPopularKid',
-	// 				friends: array
-	// 			})
-	// 		}
-	// 	})
-	// })
 	var userId = req.body.userId
 	dB(query.friends,[userId])
 		.then((friends) => {
@@ -699,7 +660,7 @@ router.post('/profile',(req,res)=>{
 			});
 		}else{
 			res.json({
-				msg: 'shitBroke'
+				msg: 'Broken'
 			});
 		}
 	});
@@ -711,7 +672,7 @@ router.post('/skillReview',(req,res) => {
 	dB(query.userCheck, [userName]).then((results)=>{
 		if(results.length ===0){
 			res.json({
-				msg: 'shitBroke'
+				msg: 'Broken'
 			})
 		}else{
 			dB(query.skillReviews,[results[0].userID]).then((deets)=>{
@@ -746,14 +707,14 @@ router.post('/addSkillReview', (req,res)=>{
 					//hope this never gets seen.
 					if(user.length === 0){
 						res.json({
-							msg: 'shitBroke'
+							msg: 'Broken'
 						});
 					}else{
 						var reviewerID = user[0].userID;
 						dB(query.userCheck,[info.userName]),then((results)=>{
 							if(results.length === 0){
 								res.json({
-									msg: 'shitBroke'
+									msg: 'Broken'
 								})
 							}else{
 								var userID = results[0].userID;
