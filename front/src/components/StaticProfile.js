@@ -33,7 +33,7 @@ class StaticProfile extends Component {
 
 		axiosReq('post',url,data)
 			.then((res) => {
-				console.log(res)
+				Actions.friends()
 			})
 	}
 

@@ -23,16 +23,14 @@ class RegisterForm extends Component {
 			var erroMsg = ''
 		}
 
-		return(
-			<TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+		if (this.props.loading) {
+			var inputField = <View style={styles.form}>
 
-				<View style={{ marginTop: 70 }}>
+								<Spinner />
 
-					<BackButton top={-30} />
-
-					<Logo />
-
-					<View style={styles.form}>
+							</View>	
+		}else {
+			var inputField = <View style={styles.form}>
 
 						<Text style={styles.errorTextStyle}>{errorMsg}</Text>
 
@@ -66,6 +64,18 @@ class RegisterForm extends Component {
 						/>
 
 					</View>	
+		}
+
+		return(
+			<TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+
+				<View style={{ marginTop: 70 }}>
+
+					<BackButton top={-30} />
+
+					<Logo />
+
+					{inputField}
 
 					<View style={styles.button}>
 
@@ -101,9 +111,9 @@ const styles = {
 
 const mapStateToProps = (state) => {
 	const { userName, email, password, phone } = state.registerForm;
-	const { user, error, errorMsg } = state.auth
+	const { user, error, errorMsg, loading } = state.auth
 
-	return { userName, email, password, phone, user, error, errorMsg }
+	return { userName, email, password, phone, user, error, errorMsg, loading }
 }
 
 export default connect(mapStateToProps,{ registerUpdate, registerUser })(RegisterForm);

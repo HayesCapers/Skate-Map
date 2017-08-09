@@ -397,6 +397,7 @@ router.post('/searchUser', (req,res) => {
 
 	dB(query.userSearch,[userToFind])
 		.then((results) => {
+			console.log(results)
 			res.json({
 				results,
 				msg: 'Success'

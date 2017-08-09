@@ -16,6 +16,7 @@ class SearchResults extends Component {
 	}
 
 	render() {
+		console.log(this.props.searchResults)
 		var resultsArray = []
 
 		if (this.props.searchResults.length > 0){
