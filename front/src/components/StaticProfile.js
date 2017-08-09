@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View, Text, Dimensions, Image } from 'react-native';
 import { BackButton, Button, CardSection } from './common';
 import { connect } from 'react-redux';
+import { Actions } from 'react-native-router-flux';
 import { addFriend } from '../actions/FriendActions';
 
 const { height, width } = Dimensions.get('window')
@@ -20,7 +21,7 @@ class StaticProfile extends Component {
 
 		axiosReq('post',url,data)
 			.then((res) => {
-				Actions.friends()
+				Actions.map()
 			})
 	}
 
@@ -33,7 +34,7 @@ class StaticProfile extends Component {
 
 		axiosReq('post',url,data)
 			.then((res) => {
-				Actions.friends()
+				Actions.map()
 			})
 	}
 

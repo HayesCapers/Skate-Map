@@ -1,7 +1,9 @@
 import {
 	UPDATE_STARS,
-	REVIEW_INPUT_UPDATE
+	REVIEW_INPUT_UPDATE,
+	REVIEW_SUCCESS
 } from './types';
+import { Actions } from 'react-native-router-flux'
 
 const { axiosReq } = require('../../my_mods');
 
@@ -18,7 +20,10 @@ export const submitReview = (review) => {
 
 		axiosReq('post',url,review)
 			.then((response) => {
-				console.log(response)
+				dispatch({
+					type: REVIEW_SUCCESS,
+				})
+				Actions.pop()
 			})
 	}
 }

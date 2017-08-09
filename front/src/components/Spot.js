@@ -15,7 +15,7 @@ class Spot extends Component {
 	}
 
 	render() {
-		console.log(this.props.id)
+		console.log(`https://s3.amazonaws.com/s3-skatespot/images/${this.props.id}.jpg`)
 
 		const { height, width } = Dimensions.get('window')
 		const { averageRating, totalRatings, city, state, description, locationName } = this.props.spot

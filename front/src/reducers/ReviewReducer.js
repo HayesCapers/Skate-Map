@@ -1,7 +1,8 @@
 import {
 	UPDATE_STARS,
 	REVIEW_INPUT_UPDATE,
-	LOGOUT_USER
+	LOGOUT_USER,
+	REVIEW_SUCCESS
 } from '../actions/types';
 
 const INITIAL_STATE = {
@@ -17,6 +18,8 @@ export default (state = INITIAL_STATE, action) => {
 			return { ...state, [action.payload.prop]: action.payload.value }
 		case LOGOUT_USER:
 			return { ...INITIAL_STATE }	
+		case REVIEW_SUCCESS:
+			return { ...INITIAL_STATE }
 		default:
 			return state
 	}

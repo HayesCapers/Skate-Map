@@ -40,7 +40,7 @@ var query = {
 	//detailed query to get all relevant info for individual spots
 	detailed: 'select b.locationName,b.city,b.state,b.description,count(a.rating) as totalRatings, AVG(a.rating) as averageRating,count(c.secRating) as totalSecRatings, avg(secRating) as avgSecRatings from __spotReviews a inner join __spots b on a.locationID = b.locationID inner join __securityReviews c on a.locationID = c.locationID where a.locationID = ?',
 	//insert query for new spot to be made
-	addSpot: 'insert into __spots (locationName,city,state,longitude,latitude,description,img) values (?,?,?,?,?,?,?)',
+	addSpot: 'insert into __spots (locationName,city,state,longitude,latitude,description) values (?,?,?,?,?,?)',
 	//quick query for just locationID
 	locID: 'select locationID from __spots where latitude = ? and longitude = ?',
 	//add a review for another user

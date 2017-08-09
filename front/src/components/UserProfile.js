@@ -50,7 +50,7 @@ class UserProfile extends Component {
 					<View style={avatarContainer}>
 						<Image 
 							style={avatarImg}
-							source={require('../assets/images/user-placeholder.png')} 
+							source={require('../assets/images/hanJam.jpg')} 
 						/>
 					</View>
 

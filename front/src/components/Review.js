@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, Image, Dimensions, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import { View, Text, Image, Dimensions, TouchableWithoutFeedback, Keyboard, ScrollView } from 'react-native';
 import { Button, Input, CardSection, BackButton } from './common';
 import Stars from './common/Stars';
 import { connect } from 'react-redux';
@@ -110,14 +110,16 @@ class Reviews extends Component {
 
 		return(
 			<TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-				<View style={{ marginTop: 75 }}>
+				<ScrollView style={{ marginTop: 20 }}>
+					<View style={{ marginTop: 75 }}>
 
-					{isReview}
+						{isReview}
 
-					<BackButton top={-100}/>
+						<BackButton top={-100}/>
 
-					{this.state.reviews}
-				</View>
+						{this.state.reviews}
+					</View>
+				</ScrollView>	
 			</TouchableWithoutFeedback>	
 		)
 	}

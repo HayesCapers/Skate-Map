@@ -35,4 +35,5 @@ export const SAVE_FRIEND_ID = 'save_friend_id';
 export const GET_USER_DEETS_SUCCESS = 'get_user_deets_success';
 export const ADD_FRIEND = 'add_friend';
 export const LOGOUT_USER = 'logout_user';
+export const REVIEW_SUCCESS = 'review_success';
 
