@@ -2,13 +2,6 @@
 const { router, query, dB, randToken, bcrypt, distanceCheck, updateAccount } = require('../modules');
 
 
-// useless but i'll keep it anyway.
-router.get('/', function(req, res, next) {
-  res.json({
-	msg: 'hayes, you monster'
-  });
-});
-
 // login process
 router.post('/login',(req,res)=>{
 	var userName = req.body.userName;
