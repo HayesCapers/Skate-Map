@@ -31,7 +31,8 @@ class Map extends Component {
 	}
 
 	componentDidMount() {
-		setTimeout(() => this.onRegionChange(), 200)
+		// setTimeout(() => this.onRegionChange(), 200)
+		this.getSpots()
 	}
 
 	onRegionChange() {

@@ -35,7 +35,7 @@ class RegisterForm extends Component {
 						<Text style={styles.errorTextStyle}>{errorMsg}</Text>
 
 						<Input 
-							placeholder='NickSux'
+							placeholder='User Name'
 							label='Username'
 							onChangeText={value => this.props.registerUpdate({ prop: 'userName', value })}
 							value={this.props.userName}

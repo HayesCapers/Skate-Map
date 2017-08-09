@@ -38,7 +38,7 @@ var query = {
 	//query for averages for locations by ID
 	avgs: 'select avg(a.rating) as rating, avg(b.secRating) as secRating from __spotReviews a inner join __securityReviews b on a.locationID = b.locationID where a.locationID = ?',
 	//detailed query to get all relevant info for individual spots
-	detailed: 'select b.locationName,b.city,b.state,b.description,b.img,count(a.rating) as totalRatings, AVG(a.rating) as averageRating,count(c.secRating) as totalSecRatings, avg(secRating) as avgSecRatings from __spotReviews a inner join __spots b on a.locationID = b.locationID inner join __securityReviews c on a.locationID = c.locationID where a.locationID = ?',
+	detailed: 'select b.locationName,b.city,b.state,b.description,count(a.rating) as totalRatings, AVG(a.rating) as averageRating,count(c.secRating) as totalSecRatings, avg(secRating) as avgSecRatings from __spotReviews a inner join __spots b on a.locationID = b.locationID inner join __securityReviews c on a.locationID = c.locationID where a.locationID = ?',
 	//insert query for new spot to be made
 	addSpot: 'insert into __spots (locationName,city,state,longitude,latitude,description,img) values (?,?,?,?,?,?,?)',
 	//quick query for just locationID

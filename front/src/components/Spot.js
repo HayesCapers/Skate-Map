@@ -15,6 +15,7 @@ class Spot extends Component {
 	}
 
 	render() {
+		console.log(this.props.id)
 
 		const { height, width } = Dimensions.get('window')
 		const { averageRating, totalRatings, city, state, description, locationName } = this.props.spot
@@ -31,10 +32,12 @@ class Spot extends Component {
 				<BackButton />
 
 				<CardSection>
-					<Image 
-						style={{ height: 300, width: 300 }}
-						source={{ uri : `https://s3.amazonaws.com/s3-skatespot/images/${this.props.id}.jpg` }} 
-					/>
+					<View style={styles.imageContainer}>
+						<Image 
+							style={{ height: 300, width: 355 }}
+							source={{ uri : `https://s3.amazonaws.com/s3-skatespot/images/${this.props.id}.jpg` }} 
+						/>
+					</View>	
 				</CardSection>
 
 				<CardSection>
@@ -70,6 +73,10 @@ const styles = {
 	headerText: {
 		fontFamily: 'American Captain',
 		fontSize: 60
+	},
+	imageContainer: {
+		justifyContent: 'center',
+		alignItems: 'center'
 	}
 }
 
