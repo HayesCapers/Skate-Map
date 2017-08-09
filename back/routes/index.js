@@ -324,7 +324,7 @@ router.post('/addSecReview', (req,res)=>{
 });
 
 router.post('/searchUser', (req,res) => {
-	var userToFind = req.body.userName;
+	var userToFind = `%${req.body.userName}%`;
 
 	dB(query.userSearch,[userToFind])
 		.then((results) => {
